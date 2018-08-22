@@ -18,7 +18,7 @@ npm.publish:
 	git pull --tags
 	npm version patch
 	git push origin $(git_branch) && git push --tags
-	- cd npm publish --access public
+	npm publish --access public
 
 github.release: export REPOSITORY=kiltjs/trisquel-app
 github.release: export PKG_VERSION=$(shell node -e "console.log('v'+require('./package.json').version);")
