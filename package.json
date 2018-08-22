@@ -1,0 +1,30 @@
+{
+  "name": "@trisquel/app",
+  "version": "0.1.0",
+  "description": "Trisquel HTML renderer app",
+  "main": "app.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kiltjs/trisquel-app.git"
+  },
+  "keywords": [
+    "html",
+    "minify",
+    "minifier"
+  ],
+  "author": "Jesús Germade <jesus@germade.es>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kiltjs/trisquel-app/issues"
+  },
+  "homepage": "https://github.com/kiltjs/trisquel-app#readme",
+  "devDependencies": {
+    "eslint": "5.0.1"
+  },
+  "dependencies": {
+    "@trisquel/con-text": "^0.1.2"
+  }
+}
