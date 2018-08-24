@@ -1,14 +1,14 @@
 {
-  "name": "@trisquel/app",
-  "version": "0.1.4",
-  "description": "Trisquel HTML renderer app",
+  "name": "@triskel/app",
+  "version": "1.0.0",
+  "description": "triskel HTML renderer app",
   "main": "app.js",
   "scripts": {
     "test": "make test"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/kiltjs/trisquel-app.git"
+    "url": "git+ssh://git@github.com/triskeljs/app.git"
   },
   "keywords": [
     "html",
@@ -18,14 +18,14 @@
   "author": "Jesús Germade <jesus@germade.es>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kiltjs/trisquel-app/issues"
+    "url": "https://github.com/triskeljs/app/issues"
   },
-  "homepage": "https://github.com/kiltjs/trisquel-app#readme",
+  "homepage": "https://github.com/triskeljs/app#readme",
   "devDependencies": {
     "eslint": "5.0.1"
   },
   "dependencies": {
-    "@trisquel/con-text": "^0.1.2",
-    "@trisquel/render": "^0.1.3"
+    "@triskel/con-text": "1.0.0",
+    "@triskel/render": "1.0.0"
   }
 }

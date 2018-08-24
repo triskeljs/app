@@ -1,7 +1,7 @@
 
 var _ = require('./utils'),
     RenderApp = require('./render'),
-    createConText = require('@trisquel/con-text');
+    createConText = require('@triskel/con-text');
 
 function createApp(options) {
   options = options || {};

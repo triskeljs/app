@@ -1,6 +1,6 @@
 
 var _ = require('./utils'),
-    renderNodes = require('@trisquel/render');
+    renderNodes = require('@triskel/render');
 
 module.exports = RenderApp;
 
