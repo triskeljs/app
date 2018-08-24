@@ -1,6 +1,6 @@
 
 var _ = require('./utils'),
-    RenderApp = require('./render-app'),
+    RenderApp = require('./render'),
     createConText = require('@trisquel/con-text');
 
 function createApp(options) {
