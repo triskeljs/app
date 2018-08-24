@@ -8,8 +8,7 @@ install:
 
 eslint:
 	$(shell npm bin)/eslint app.js
-	$(shell npm bin)/eslint render-app.js
-	$(shell npm bin)/eslint simple-render.js
+	$(shell npm bin)/eslint render.js
 	$(shell npm bin)/eslint utils.js
 
 test: install eslint
