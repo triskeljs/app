@@ -25,6 +25,7 @@
     "eslint": "5.0.1"
   },
   "dependencies": {
-    "@trisquel/con-text": "^0.1.2"
+    "@trisquel/con-text": "^0.1.2",
+    "@trisquel/render": "^0.1.3"
   }
 }

@@ -15,20 +15,11 @@ Compact, reliable and customizable HTML minifier.
 npm install @trisquel/app --save-dev
 ```
 
-### Simple Render
-
-``` js
-
-var renderHTML = require('@trisquel/app/simple-render');
-
-```
-
-
 ### Render App
 
 ``` js
 
-var RenderApp = require('@trisquel/app/render-app');
+var RenderApp = require('@trisquel/app/render');
 
 var HTML = new RenderApp();
 
