@@ -74,8 +74,8 @@ function createApp(options) {
           if_options.insert_before = close_comment;
           if_options.data = data;
 
-          var inserted_nodes = data_app.render(parent_el, [node], if_options).inserted_nodes;
-          inserted_node = inserted_nodes[0].el;
+          rendered_handler = data_app.render(parent_el, [node], if_options);
+          inserted_node = rendered_handler.inserted_nodes[0].el;
         } else {
           if( inserted_node ) parent_el.removeChild(inserted_node);
         }
