@@ -76,8 +76,8 @@ function createApp(options) {
 
           rendered_handler = data_app.render(parent_el, [node], if_options);
           inserted_node = rendered_handler.inserted_nodes[0].el;
-        } else {
-          if( inserted_node ) parent_el.removeChild(inserted_node);
+        } else if( parent_el.contains(inserted_node) ) {
+          parent_el.removeChild(inserted_node);
         }
       });
 
