@@ -67,6 +67,7 @@ function createApp(options) {
       this.watchData(function (data) {
         if( assertExpression(data) ) {
           if( inserted_node ) {
+            if( !parent_el.contains(inserted_node) ) parent_el.insertBefore(inserted_node, close_comment);
             rendered_handler.updateData(data);
             return;
           }
