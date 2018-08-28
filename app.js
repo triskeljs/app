@@ -4,13 +4,13 @@ var _ = require('./utils'),
     createConText = require('@triskel/con-text'),
     triggerEvent = 'CustomEvent' in window ? function (node, event_name, options) {
       var event = new CustomEvent(event_name, options);
-      element.dispatchEvent(event);
+      node.dispatchEvent(event);
       return event;
     } : function (node, event_name, options) {
       var event = document.createEvent('HTMLEvents');
       if( options && 'detail' in options ) event.detail = options.detail;
-      event.initEvent(eventName, true, true);
-      element.dispatchEvent(event);
+      event.initEvent(event_name, true, true);
+      node.dispatchEvent(event);
       return event;
     };
 
