@@ -15,7 +15,29 @@ function RenderApp (_options) {
 RenderApp.prototype.render = function (parent_el, nodes, _options) {
   var app = this,
       render_options = _.extend( Object.create( app.options || {} ), _options || {} ),
-      with_node_pipe = app.with_node_pipe;
+      with_node_pipe = app.with_node_pipe,
+      detach_queue = [],
+      _processDetachQueue = function (detached_nodes) {
+        for( var i = detach_queue.length - 1 ; i >= 0 ; i-- ) {
+          if( detached_nodes.indexOf(detach_queue[i].el) >= 0 ) {
+            detach_queue[i].listener();
+            detach_queue.splice(i, 1);
+          }
+        }
+        if( detach_queue.length === 0 ) mutation_observer.disconnect();
+      },
+      mutation_observer = 'MutationObserver' in window ? new MutationObserver(function(mutations) {
+
+        mutations.forEach(function(mutation) {
+          [].forEach.call(mutation.removedNodes, triggerDetach);
+        });
+
+      }) : { observe: function () {}, disconnect: function () {} };
+
+  app.onDetach = function (node, listener) {
+    if( !detach_queue.length ) mutation_observer.observe(parent_el, { childList: true, subtree: true });
+    detach_queue.push({ el: this, listener: listener });
+  };
 
   parent_el = parent_el || document.createElement('div');
 
@@ -73,7 +95,12 @@ RenderApp.prototype.component = function (tag_name, options) {
   // this.components[tag_name] = initNode;
   var render_app = this;
 
-  options = options || {};
+  if( options === undefined ) options = {};
+
+  if( options instanceof Function ) options = { controller: options };
+  else if( !options || typeof options !== 'object' ) {
+    throw new TypeError('options should be a plain object (or a controller function)');
+  }
 
   this.withNode(function (node) {
 
@@ -103,6 +130,17 @@ RenderApp.prototype.component = function (tag_name, options) {
   return this;
 };
 
+
+function _returnPlainObject () { return {}; }
+
+function _safeWithNode = function (withNode) {
+  if( withNode instanceof Function ) return withNode;
+  if( withNode && typeof withNode === 'object' ) return function () {
+    return withNode;
+  };
+  return _returnPlainObject;
+}
+
 RenderApp.prototype.directive = function (directive, initNode, withNode) {
 
   if( directive instanceof RegExp ) directive = directive.source;
@@ -111,7 +149,8 @@ RenderApp.prototype.directive = function (directive, initNode, withNode) {
   var matchRE = new RegExp(directive),
       matchAttr = function (attr) {
         return matchRE.test(attr);
-      };
+      },
+      _withNode = _safeWithNode(withNode);
 
   this.withNode(function (node, with_node) {
     var _attrs = node.attrs || {},
@@ -125,12 +164,13 @@ RenderApp.prototype.directive = function (directive, initNode, withNode) {
 
     if( attr_key ) {
 
-      with_node = _.extend( withNode && withNode(node, attr_key) || {}, {
+      with_node = _.extend( _withNode(node, attr_key), {
         initNode: function (node_el, _node, with_node, render_options) {
           _node = Object.create(_node);
           if( !_node._directives_used ) _node._directives_used = {};
           _node._directives_used[attr_key] = true;
           // initNode.apply(this_app, arguments);
+
           initNode.call(this_app, node_el, _node, with_node, Object.create(render_options || {}) );
         },
       });
