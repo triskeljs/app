@@ -36,9 +36,9 @@ module.exports = function (APP, TEXT, directive_ns) {
         ( classes_object && typeof classes_object === 'object' ? _getClassesFromObject(classes_object) : '' );
 
       if( generated_classes === previus_classes ) return;
+      previus_classes = generated_classes;
 
       node_el.className = original_classes + (original_classes ? ' ' : '') + generated_classes;
-      previus_classes = generated_classes;
     });
   });
 

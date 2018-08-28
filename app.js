@@ -3,10 +3,10 @@ var _ = require('./utils'),
     RenderApp = require('./render'),
     createConText = require('@triskel/con-text');
 
-var addDirectiveIf = require('directives/if.js'),
-    addDirectiveRepeat= require('directives/repeat.js'),
-    addDirectiveOn= require('directives/on.js'),
-    addDirectiveClass = require('directives/class.js');
+var addDirectiveIf = require('./directives/if.js'),
+    addDirectiveRepeat= require('./directives/repeat.js'),
+    addDirectiveOn= require('./directives/on.js'),
+    addDirectiveClass = require('./directives/class.js');
 
 function createApp(options) {
   options = options || {};
