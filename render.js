@@ -29,7 +29,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
       mutation_observer = 'MutationObserver' in window ? new MutationObserver(function(mutations) {
 
         mutations.forEach(function(mutation) {
-          [].forEach.call(mutation.removedNodes, triggerDetach);
+          _processDetachQueue(mutation.removedNodes);
         });
 
       }) : { observe: function () {}, disconnect: function () {} };
