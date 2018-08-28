@@ -70,9 +70,19 @@ function createApp(options) {
   if( add_directives.on ) addDirectiveOn(data_app, TEXT, directive_ns);
   if( add_directives['class'] ) addDirectiveClass(data_app, TEXT, directive_ns);
 
+  data_app.initDetachedEvents = function (root) {
+    new MutationObserver(function(mutations) {
+
+        mutations.forEach(function(mutation) {
+          [].forEach.call(mutation.removedNodes, triggerDetach);
+        });
+
+      }).observe(root, { childList: true, subtree: true });
+  };
+
   data_app.render = function (_parent, _nodes, render_options) {
 
-    render_options = render_options || {};
+    render_options = Object.create(render_options || {});
 
     var this_app = Object.create(app),
         data = render_options.data || {},
@@ -85,21 +95,6 @@ function createApp(options) {
     this_app.watchData = watchData;
 
     var inserted_nodes = app.render.apply(this_app, arguments);
-
-    if( render_options.detached_events && !_parent.__listening_detached__ ) (function () {
-
-      // preventing trigger several times
-      _parent.__listening_detached__ = true;
-
-      new MutationObserver(function(mutations) {
-
-        mutations.forEach(function(mutation) {
-          [].forEach.call(mutation.removedNodes, triggerDetach);
-        });
-
-      }).observe(document.body, { childList: true, subtree: true });
-
-    })();
 
     return {
       updateData: function (_data) {
