@@ -12,6 +12,13 @@ function RenderApp (_options) {
   this.options = options;
 }
 
+function _isInList(list, item) {
+  for( var i = list.length - 1; i >= 0 ; i-- ) {
+    if( item === list[i] ) return true;
+  }
+  return false;
+}
+
 RenderApp.prototype.render = function (parent_el, nodes, _options) {
   var app = this,
       render_options = _.extend( Object.create( app.options || {} ), _options || {} ),
@@ -19,7 +26,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
       detach_queue = [],
       _processDetachQueue = function (detached_nodes) {
         for( var i = detach_queue.length - 1 ; i >= 0 ; i-- ) {
-          if( detached_nodes.indexOf(detach_queue[i].el) >= 0 ) {
+          if( _isInList(detach_queue[i].el) ) {
             detach_queue[i].listener.call(detach_queue[i].el);
             detach_queue.splice(i, 1);
           }
