@@ -37,7 +37,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
   function _onDetach (listener) {
     if( !detach_queue.length ) mutation_observer.observe(parent_el, { childList: true, subtree: true });
     detach_queue.push({ el: this, listener: listener });
-  };
+  }
 
   parent_el = parent_el || document.createElement('div');
 
