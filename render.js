@@ -131,14 +131,11 @@ RenderApp.prototype.component = function (tag_name, options) {
 };
 
 
-function _returnPlainObject () { return {}; }
-
-function _safeWithNode (withNode) {
+function _autoWithNode (withNode) {
   if( withNode instanceof Function ) return withNode;
   if( withNode && typeof withNode === 'object' ) return function () {
     return withNode;
   };
-  return _returnPlainObject;
 }
 
 RenderApp.prototype.directive = function (directive, initNode, withNode) {
@@ -150,7 +147,7 @@ RenderApp.prototype.directive = function (directive, initNode, withNode) {
       matchAttr = function (attr) {
         return matchRE.test(attr);
       },
-      _withNode = _safeWithNode(withNode);
+      _withNode = _autoWithNode(withNode);
 
   this.withNode(function (node, with_node) {
     var _attrs = node.attrs || {},
@@ -164,7 +161,7 @@ RenderApp.prototype.directive = function (directive, initNode, withNode) {
 
     if( attr_key ) {
 
-      with_node = _.extend( _withNode(node, attr_key), {
+      with_node = _.extend( _withNode && _withNode(node, attr_key) || {}, {
         initNode: function (node_el, _node, with_node, render_options) {
           _node = Object.create(_node);
           if( !_node._directives_used ) _node._directives_used = {};
