@@ -26,7 +26,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
       detach_queue = [],
       _processDetachQueue = function (detached_nodes) {
         for( var i = detach_queue.length - 1 ; i >= 0 ; i-- ) {
-          if( _isInList(detach_queue[i].el) ) {
+          if( _isInList(detached_nodes, detach_queue[i].el) ) {
             detach_queue[i].listener.call(detach_queue[i].el);
             detach_queue.splice(i, 1);
           }
