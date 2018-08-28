@@ -133,7 +133,7 @@ RenderApp.prototype.component = function (tag_name, options) {
 
 function _returnPlainObject () { return {}; }
 
-function _safeWithNode = function (withNode) {
+function _safeWithNode (withNode) {
   if( withNode instanceof Function ) return withNode;
   if( withNode && typeof withNode === 'object' ) return function () {
     return withNode;
