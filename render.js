@@ -20,7 +20,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
       _processDetachQueue = function (detached_nodes) {
         for( var i = detach_queue.length - 1 ; i >= 0 ; i-- ) {
           if( detached_nodes.indexOf(detach_queue[i].el) >= 0 ) {
-            detach_queue[i].listener();
+            detach_queue[i].listener.call(detach_queue[i].el);
             detach_queue.splice(i, 1);
           }
         }
