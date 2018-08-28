@@ -2,17 +2,17 @@
 var _ = require('./utils'),
     RenderApp = require('./render'),
     createConText = require('@triskel/con-text'),
-    triggerEvent = 'CustomEvent' in window ? function (node, event_name, options) {
-      var event = new CustomEvent(event_name, options);
-      node.dispatchEvent(event);
-      return event;
-    } : function (node, event_name, options) {
-      var event = document.createEvent('HTMLEvents');
-      if( options && 'detail' in options ) event.detail = options.detail;
-      event.initEvent(event_name, true, true);
-      node.dispatchEvent(event);
-      return event;
-    };
+    triggerDetach = (function (detach_event) {
+      return function (node) {
+        node.dispatchEvent(detach_event);
+      };
+    })( 'CustomEvent' in window ?
+      new window.CustomEvent('detached') :
+      (function (event) {
+        event.initEvent('detached', true, true);
+        return event;
+      })( document.createEvent('HTMLEvents') )
+    );
 
 var addDirectiveIf = require('./directives/if.js'),
     addDirectiveRepeat= require('./directives/repeat.js'),
@@ -94,9 +94,7 @@ function createApp(options) {
       new MutationObserver(function(mutations) {
 
         mutations.forEach(function(mutation) {
-          [].forEach.call(mutation.removedNodes, function (node) {
-            triggerEvent(node, 'detached');
-          });
+          [].forEach.call(mutation.removedNodes, triggerDetach);
         });
 
       }).observe(document.body, { childList: true, subtree: true });
