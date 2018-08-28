@@ -34,7 +34,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
 
       }) : { observe: function () {}, disconnect: function () {} };
 
-  app.onDetach = function (node, listener) {
+  function _onDetach (listener) {
     if( !detach_queue.length ) mutation_observer.observe(parent_el, { childList: true, subtree: true });
     detach_queue.push({ el: this, listener: listener });
   };
@@ -65,10 +65,13 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
     }
 
     if( init_pipe.length ) {
-      with_node.initNode = function () {
+      with_node.initNode = function (node_el) {
+        var _this = Object.create(app);
+        _this.onDetach = _onDetach.bind(node_el);
+
         for( var i = 0, n = init_pipe.length; i < n ; i++ ) {
           // init_pipe[i].call(node_el, node_el, node, with_node);
-          init_pipe[i].apply(app, arguments);
+          init_pipe[i].apply(_this, arguments);
         }
       };
     }
