@@ -179,6 +179,7 @@ RenderApp.prototype.directive = function (directive, initNode, withNode) {
           // initNode.apply(this_app, arguments);
 
           initNode.call(this_app, node_el, _node, with_node, Object.create(render_options || {}) );
+          delete _node._directives_used[attr_key];
         },
       });
 
