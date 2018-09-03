@@ -65,7 +65,7 @@ RenderApp.prototype.withNode = function (withNode) {
   return this;
 };
 
-RenderApp.prototype.component = function (tag_name, options) {
+RenderApp.prototype.component = function (tag_name, options, render_options) {
   // Allowing multiple initNode
   // if( this.components[tag_name] ) throw new Error('Attempting to define component twice: ' + tag_name);
   //
@@ -89,12 +89,12 @@ RenderApp.prototype.component = function (tag_name, options) {
           });
         }
 
-        render_app.render(node_el, options.template);
+        render_app.render(node_el, options.template, render_options);
         options.controller.apply(_this, _args);
 
       } : ( options.controller || function (node_el) {
         if( typeof options.template === 'string' ) node_el.innerHTML = options.template;
-        else render_app.render(node_el, options.template);
+        else render_app.render(node_el, options.template, render_options);
       }),
     });
 
