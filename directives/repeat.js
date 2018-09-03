@@ -12,7 +12,8 @@ module.exports = function (APP, TEXT, directive_ns) {
     if( !matched_expressions ) throw new Error('data-repeat invalid expression: ' + attr_value );
 
     var list_key = matched_expressions[1].trim(),
-        getList = TEXT.eval(matched_expressions[2]);
+        getList = TEXT.eval(matched_expressions[2]),
+        previous_repeat = null;
 
     parent_el.insertBefore(start_comment, close_comment);
 
@@ -20,14 +21,14 @@ module.exports = function (APP, TEXT, directive_ns) {
       var list = getList(data),
           remove_el = start_comment.nextSibling;
 
+      if( !(list instanceof Array) ) throw new Error('expression \'' + matched_expressions[2] + '\' should return an Array');
+
       while( remove_el !== close_comment ) {
         parent_el.removeChild(remove_el);
         remove_el = start_comment.nextSibling;
       }
 
-      if( !(list instanceof Array) ) throw new Error('expression \'' + matched_expressions[2] + '\' should return an Array');
-
-      list.forEach(function (data_item) {
+      previous_repeat = list.map(function (data_item) {
         var _data = Object.create(data),
             repeat_options = Object.create(render_options);
 
@@ -36,7 +37,11 @@ module.exports = function (APP, TEXT, directive_ns) {
         repeat_options.insert_before = close_comment;
         repeat_options.data = _data;
 
-        APP.render(parent_el, [node], repeat_options);
+        return {
+          data_item: data_item,
+          data: data,
+          rendered: APP.render(parent_el, [node], repeat_options),
+        };
       });
     });
 

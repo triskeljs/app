@@ -24,10 +24,10 @@ function createApp(options) {
 
   // Data envelope for RenderApp
 
-  var data_app = Object.create(app),
-      TEXT = createConText(data_app);
+  var APP = Object.create(app),
+      TEXT = createConText(APP);
 
-  data_app.directive = function (directive, initNode, with_node) {
+  APP.directive = function (directive, initNode, with_node) {
 
     app.directive(directive, function () {
       // this.watchData = watchData;
@@ -38,7 +38,7 @@ function createApp(options) {
 
   // preset directives
 
-  data_app.withNode(function (node) {
+  APP.withNode(function (node) {
     if( typeof node.text === 'string' ) return {
       initNode: function (el) {
         // console.log('node.text', this, arguments);
@@ -54,14 +54,14 @@ function createApp(options) {
     };
   });
 
-  if( add_directives.if ) addDirectiveIf(data_app, TEXT, directive_ns);
-  if( add_directives.repeat ) addDirectiveRepeat(data_app, TEXT, directive_ns);
-  if( add_directives.on ) addDirectiveOn(data_app, TEXT, directive_ns);
-  if( add_directives['class'] ) addDirectiveClass(data_app, TEXT, directive_ns);
+  if( add_directives.if ) addDirectiveIf(APP, TEXT, directive_ns);
+  if( add_directives.repeat ) addDirectiveRepeat(APP, TEXT, directive_ns);
+  if( add_directives.on ) addDirectiveOn(APP, TEXT, directive_ns);
+  if( add_directives['class'] ) addDirectiveClass(APP, TEXT, directive_ns);
 
-  data_app.render = function (_parent, _nodes, render_options) {
+  APP.render = function (_parent, _nodes, render_options) {
 
-    render_options = render_options || {};
+    render_options = Object.create(render_options || {});
 
     var this_app = Object.create(app),
         data = render_options.data || {},
@@ -87,7 +87,7 @@ function createApp(options) {
 
   };
 
-  return data_app;
+  return APP;
 }
 
 var app = createApp();
