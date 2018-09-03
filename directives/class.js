@@ -7,9 +7,9 @@ function _getClassFromItem (class_item) {
 }
 
 function _getClassesFromObject (o) {
-  var result = '', class_name;
+  var result = '';
   for( var key in o ) {
-    if( o[key] ) result += ' ' + key;
+    if( o[key] ) result += o[key] === true ? (' ' + key) : (' ' + key + o[key]);
   }
   return result;
 }
