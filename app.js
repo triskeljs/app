@@ -6,6 +6,7 @@ var _ = require('./utils'),
 var addDirectiveIf = require('./directives/if.js'),
     addDirectiveRepeat= require('./directives/repeat.js'),
     addDirectiveOn= require('./directives/on.js'),
+    addDirectiveBind= require('./directives/bind.js'),
     addDirectiveClass = require('./directives/class.js');
 
 function createApp(options) {
@@ -57,6 +58,7 @@ function createApp(options) {
   if( add_directives.if ) addDirectiveIf(APP, TEXT, directive_ns);
   if( add_directives.repeat ) addDirectiveRepeat(APP, TEXT, directive_ns);
   if( add_directives.on ) addDirectiveOn(APP, TEXT, directive_ns);
+  if( add_directives.bind ) addDirectiveBind(APP, TEXT, directive_ns);
   if( add_directives['class'] ) addDirectiveClass(APP, TEXT, directive_ns);
 
   APP.render = function (_parent, _nodes, render_options) {
