@@ -7,9 +7,12 @@ function _getClassFromItem (class_item) {
 }
 
 function _getClassesFromObject (o) {
-  var result = '', class_name;
+  var result = '';
   for( var key in o ) {
-    if( o[key] ) result += ' ' + key;
+    if( o[key] ) {
+      result += ' ' + key;
+      if( o[key] !== true ) result += ' ' + key + o[key];
+    }
   }
   return result;
 }
@@ -22,7 +25,7 @@ function _getClassesFromArray (classes_array) {
 
 module.exports = function (APP, TEXT, directive_ns) {
 
-  APP.directive(directive_ns + '-class', function (node_el, node, _with_node, _render_options) {
+  APP.directive(directive_ns + '-class', function (node_el, node, _render_options, _with_node) {
     var getClassesObject = TEXT.eval(node.attrs[directive_ns + '-class']),
         original_classes = node_el.className || '',
         previus_classes = '';

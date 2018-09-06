@@ -1,6 +1,6 @@
 
 module.exports = function (APP, TEXT, directive_ns) {
-  APP.directive(directive_ns + '-repeat', function (close_comment, node, _with_node, render_options) {
+  APP.directive(directive_ns + '-repeat', function (close_comment, node, render_options, _with_node) {
 
     // @TODO stuff
 
@@ -45,9 +45,9 @@ module.exports = function (APP, TEXT, directive_ns) {
       });
     });
 
-  }, function (node, attr_key) {
+  }, function () {
     return {
-      replace_by_comment: ' / ' + attr_key + ' ',
+      replace_by_comment: ' / ' + this.attr_key + ' ',
     };
   });
 };
