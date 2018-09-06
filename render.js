@@ -112,9 +112,9 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
     throw new TypeError('options should be a plain object (or a controller function)');
   }
 
-  this.withNode(function (node) {
+  render_app.withNode(function (node) {
 
-    if( node.$ === tag_name ) return _.extend( options.withNode && options.withNode.apply(this, arguments) || {}, {
+    if( node.$ === tag_name ) return _.extend( options.withNode && options.withNode.apply(render_app, arguments) || {}, {
       initNode: options.controller && options.template ? function (node_el) {
         var _this = this, _args = arguments;
 
@@ -140,7 +140,6 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
   return this;
 };
 
-
 function _autoWithNode (withNode) {
   if( withNode instanceof Function ) return withNode;
   if( withNode && typeof withNode === 'object' ) return function () {
@@ -159,7 +158,7 @@ RenderApp.prototype.directive = function (directive, initNode, withNode) {
       },
       _withNode = _autoWithNode(withNode);
 
-  this.withNode(function (node, with_node, _render_options) {
+  this.withNode(function (node, _render_options, with_node) {
     var _attrs = node.attrs || {},
         attr_key = _attrs && _.find( Object.keys(_attrs), matchAttr),
         this_app = Object.create(this);
@@ -172,13 +171,13 @@ RenderApp.prototype.directive = function (directive, initNode, withNode) {
     if( attr_key ) {
 
       with_node = _.extend( _withNode && _withNode.apply(this_app, arguments) || {}, {
-        initNode: function (node_el, _node, with_node, render_options) {
+        initNode: function (node_el, _node, render_options, _with_node) {
           _node = Object.create(_node);
           if( !_node._directives_used ) _node._directives_used = {};
           _node._directives_used[attr_key] = true;
           // initNode.apply(this_app, arguments);
 
-          initNode.call(this_app, node_el, _node, with_node, Object.create(render_options || {}) );
+          initNode.call(this_app, node_el, _node, render_options, _with_node );
           // delete _node._directives_used[attr_key];
         },
       });
