@@ -48,13 +48,14 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
 
   parent_el = parent_el || document.createElement('div');
 
+  var safe_render_options = Object.create(render_options);
   render_options.withNode = function (node) {
     var with_node = {},
         init_pipe = [],
         i, n, result_with_node;
 
     for( i = 0, n = with_node_pipe.length ; i < n ; i++ ) {
-      result_with_node = with_node_pipe[i].call(app, node, with_node);
+      result_with_node = with_node_pipe[i].call(app, node, with_node, safe_render_options);
       if( result_with_node ) {
         if( result_with_node.initNode ) {
           if( typeof result_with_node.initNode !== 'function' ) {
