@@ -2,7 +2,7 @@
 
 module.exports = function (APP, TEXT, directive_ns) {
 
-  APP.directive(directive_ns + '-bind', function (node_el, node, _with_node, render_options) {
+  APP.directive(directive_ns + '-bind', function (node_el, node, render_options, _with_node) {
 
     var parsed = TEXT.parseExpression(node.attrs[ directive_ns + '-bind']);
 

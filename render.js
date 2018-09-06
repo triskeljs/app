@@ -55,7 +55,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
         i, n, result_with_node;
 
     for( i = 0, n = with_node_pipe.length ; i < n ; i++ ) {
-      result_with_node = with_node_pipe[i].call(app, node, with_node, safe_render_options);
+      result_with_node = with_node_pipe[i].call(app, node, safe_render_options, with_node);
       if( result_with_node ) {
         if( result_with_node.initNode ) {
           if( typeof result_with_node.initNode !== 'function' ) {

@@ -1,6 +1,6 @@
 
 module.exports = function (APP, TEXT, directive_ns) {
-  APP.directive(directive_ns + '-if', function (close_comment, node, _with_node, render_options) {
+  APP.directive(directive_ns + '-if', function (close_comment, node, render_options, _with_node) {
 
     // @TODO stuff
 
