@@ -1,6 +1,6 @@
 {
   "name": "@triskel/app",
-  "version": "1.0.33",
+  "version": "1.0.30",
   "description": "triskel HTML renderer app",
   "main": "app.js",
   "scripts": {
@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "@triskel/con-text": "1.0.2",
-    "@triskel/render": "1.0.1"
+    "@triskel/render": "1.0.2"
   }
 }
