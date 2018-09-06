@@ -114,7 +114,12 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
 
   render_app.withNode(function (node) {
 
-    if( node.$ === tag_name ) return _.extend( options.withNode && options.withNode.apply(render_app, arguments) || {}, {
+    if( node.$ !== tag_name ) return;
+
+    var with_node = options.withNode && options.withNode.apply(render_app, arguments) || {},
+        _initNode = with_node.withNode;
+
+    return _.extend( with_node, {
       initNode: options.controller && options.template ? function (node_el) {
         var _this = this, _args = arguments;
 
@@ -129,9 +134,13 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
         render_app.render(node_el, options.template, render_options);
         options.controller.apply(_this, _args);
 
+        if( _initNode instanceof Function ) _initNode.apply(this, arguments);
+
       } : ( options.controller || function (node_el) {
         if( typeof options.template === 'string' ) node_el.innerHTML = options.template;
         else if( options.template ) render_app.render(node_el, options.template, render_options);
+
+        if( _initNode instanceof Function ) _initNode.apply(this, arguments);
       }),
     });
 
