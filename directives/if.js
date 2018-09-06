@@ -33,9 +33,9 @@ module.exports = function (APP, TEXT, directive_ns) {
       }
     });
 
-  }, function (node, attr_key) {
+  }, function () {
     return {
-      replace_by_comment: ' / ' + attr_key + ' '
+      replace_by_comment: ' / ' + this.attr_key + ' '
     };
   });
 };
