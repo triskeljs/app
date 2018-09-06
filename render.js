@@ -93,7 +93,6 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
 
 RenderApp.prototype.withNode = function (withNode) {
   this.with_node_pipe.push(withNode);
-
   return this;
 };
 
@@ -131,7 +130,7 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
 
       } : ( options.controller || function (node_el) {
         if( typeof options.template === 'string' ) node_el.innerHTML = options.template;
-        else render_app.render(node_el, options.template, render_options);
+        else if( options.template ) render_app.render(node_el, options.template, render_options);
       }),
     });
 
