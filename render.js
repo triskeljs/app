@@ -150,7 +150,7 @@ function _autoWithNode (withNode) {
 
 RenderApp.prototype.directive = function (directive, initNode, withNode) {
 
-  if( directive instanceof RegExp ) directive = directive.source;
+  if( directive instanceof RegExp ) directive = '^' + directive.source.replace(/^\^|\$$/g, '') + '$';
   directive = '^' + directive.replace(/^\^|\$$/, '') + '$';
 
   var matchRE = new RegExp(directive),
@@ -162,9 +162,12 @@ RenderApp.prototype.directive = function (directive, initNode, withNode) {
   this.withNode(function (node, with_node) {
     var _attrs = node.attrs || {},
         attr_key = _attrs && _.find( Object.keys(_attrs), matchAttr),
-        this_app = this;
+        this_app = Object.create(this);
 
     if( node._directives_used && node._directives_used[attr_key] ) return;
+
+    this_app.attr_key = attr_key;
+    this_app.attr_value = _attrs[attr_key];
 
     if( attr_key ) {
 
@@ -175,7 +178,7 @@ RenderApp.prototype.directive = function (directive, initNode, withNode) {
           _node._directives_used[attr_key] = true;
           // initNode.apply(this_app, arguments);
 
-          initNode.call(this_app, node_el, _node, with_node, Object.create(render_options || {}), _attrs[attr_key], attr_key );
+          initNode.call(this_app, node_el, _node, with_node, Object.create(render_options || {}) );
           // delete _node._directives_used[attr_key];
         },
       });
