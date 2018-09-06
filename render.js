@@ -117,7 +117,7 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
     if( node.$ !== tag_name ) return;
 
     var with_node = options.withNode && options.withNode.apply(render_app, arguments) || {},
-        _initNode = with_node.withNode;
+        _initNode = with_node.initNode;
 
     return _.extend( with_node, {
       initNode: options.controller && options.template ? function (node_el) {
@@ -135,13 +135,13 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
         options.controller.apply(_this, _args);
 
         if( _initNode instanceof Function ) _initNode.apply(this, arguments);
-
-      } : ( options.controller || function (node_el) {
+      } : function (node_el) {
         if( typeof options.template === 'string' ) node_el.innerHTML = options.template;
         else if( options.template ) render_app.render(node_el, options.template, render_options);
 
         if( _initNode instanceof Function ) _initNode.apply(this, arguments);
-      }),
+        if( options.controller instanceof Function ) options.controller.apply(this, arguments);
+      },
     });
 
   });
