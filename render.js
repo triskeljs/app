@@ -143,12 +143,7 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
 
   });
 
-  return {
-    tag_name: tag_name,
-    options: options,
-    render_options: render_options,
-    updateData: rendered_nodes ? rendered_nodes.updateData : function () {},
-  };
+  return this;
 };
 
 function _autoWithNode (withNode) {
