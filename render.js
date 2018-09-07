@@ -97,8 +97,7 @@ RenderApp.prototype.withNode = function (withNode) {
 };
 
 RenderApp.prototype.component = function (tag_name, options, render_options) {
-  var render_app = this,
-      rendered_nodes = null;
+  var render_app = this;
 
   if( options === undefined ) options = {};
 
