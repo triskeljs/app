@@ -127,13 +127,13 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
           });
         }
 
-        rendered_nodes = render_app.render(node_el, options.template, render_options);
+        render_app.render(node_el, options.template, render_options);
         options.controller.apply(_this, _args);
 
         if( _initNode instanceof Function ) _initNode.apply(this, arguments);
       } : function (node_el) {
         if( typeof options.template === 'string' ) node_el.innerHTML = options.template;
-        else if( options.template ) rendered_nodes = render_app.render(node_el, options.template, render_options);
+        else if( options.template ) render_app.render(node_el, options.template, render_options);
 
         if( _initNode instanceof Function ) _initNode.apply(this, arguments);
         if( options.controller instanceof Function ) options.controller.apply(this, arguments);
