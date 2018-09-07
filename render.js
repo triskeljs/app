@@ -97,7 +97,8 @@ RenderApp.prototype.withNode = function (withNode) {
 };
 
 RenderApp.prototype.component = function (tag_name, options, render_options) {
-  var render_app = this;
+  var render_app = this,
+      rendered_nodes = null;
 
   if( options === undefined ) options = {};
 
@@ -105,6 +106,8 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
   else if( !options || typeof options !== 'object' ) {
     throw new TypeError('options should be a plain object (or a controller function)');
   }
+
+  if( options.data ) render_options.data = options.data;
 
   render_app.withNode(function (node) {
 
@@ -125,13 +128,13 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
           });
         }
 
-        render_app.render(node_el, options.template, render_options);
+        rendered_nodes = render_app.render(node_el, options.template, render_options);
         options.controller.apply(_this, _args);
 
         if( _initNode instanceof Function ) _initNode.apply(this, arguments);
       } : function (node_el) {
         if( typeof options.template === 'string' ) node_el.innerHTML = options.template;
-        else if( options.template ) render_app.render(node_el, options.template, render_options);
+        else if( options.template ) rendered_nodes = render_app.render(node_el, options.template, render_options);
 
         if( _initNode instanceof Function ) _initNode.apply(this, arguments);
         if( options.controller instanceof Function ) options.controller.apply(this, arguments);
@@ -140,7 +143,12 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
 
   });
 
-  return this;
+  return {
+    tag_name: tag_name,
+    options: options,
+    render_options: render_options,
+    updateData: rendered_nodes ? rendered_nodes.updateData : function () {},
+  };
 };
 
 function _autoWithNode (withNode) {
