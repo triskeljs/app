@@ -6,7 +6,7 @@ module.exports = function (APP, TEXT, directive_ns) {
         data = render_options && render_options.data || {}; // '-on:'.length === 4
 
     node_el.addEventListener(event_name, function () {
-      onTrigger(data);
+      onTrigger.call(node_el, data);
     });
 
     this.watchData(function (_data) {
