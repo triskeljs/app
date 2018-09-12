@@ -7,8 +7,11 @@ module.exports = function (APP, TEXT, directive_ns) {
         data = render_options && render_options.data || {}; // '-on:'.length === 4
 
     node_el.addEventListener(event_name, function () {
-      onTrigger.call(node_el, data);
+      var result = onTrigger.call(node_el, data);
       _this.updateData();
+      if( result && result.then instanceof Function ) result.then(function () {
+        _this.updateData();
+      });
     });
 
     _this.watchData(function (_data) {
