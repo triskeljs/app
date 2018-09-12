@@ -29,14 +29,14 @@ function createApp(options) {
   var APP = Object.create(app),
       TEXT = createConText(APP);
 
-  APP.directive = function (directive, initNode, with_node) {
-
-    app.directive(directive, function () {
-      // this.watchData = watchData;
-      initNode.apply(this, arguments);
-    }, with_node);
-
-  };
+  // APP.directive = function (directive, initNode, with_node) {
+  //
+  //   app.directive(directive, function () {
+  //     // this.watchData = watchData;
+  //     initNode.apply(this, arguments);
+  //   }, with_node);
+  //
+  // };
 
   // preset directives
 
@@ -67,6 +67,7 @@ function createApp(options) {
     render_options = Object.create(render_options || {});
 
     var this_app = Object.create(app),
+        // parent_app = render_options.parent_app || {},
         data = render_options.data || {},
         data_listeners = [],
         watchData = function (onData) {
