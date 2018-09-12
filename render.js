@@ -20,9 +20,9 @@ function _isInList(list, item) {
 }
 
 RenderApp.prototype.render = function (parent_el, nodes, _options) {
-  var app = Object.create(this),
-      render_options = _.extend( Object.create( app.options || {} ), _options || {} ),
-      with_node_pipe = app.with_node_pipe,
+  var APP = Object.create(this),
+      render_options = _.extend( Object.create( APP.options || {} ), _options || {} ),
+      with_node_pipe = APP.with_node_pipe,
       detach_queue = [],
       _processDetachQueue = function (detached_nodes) {
         for( var i = detach_queue.length - 1 ; i >= 0 ; i-- ) {
@@ -41,8 +41,6 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
 
       }) : { observe: function () {}, disconnect: function () {} };
 
-  app.view_app = app.view_app || app;
-
   function _onDetach (listener) {
     if( !detach_queue.length ) mutation_observer.observe(parent_el, { childList: true, subtree: true });
     detach_queue.push({ el: this, listener: listener });
@@ -57,7 +55,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
         i, n, result_with_node;
 
     for( i = 0, n = with_node_pipe.length ; i < n ; i++ ) {
-      result_with_node = with_node_pipe[i].call(app, node, safe_render_options, with_node);
+      result_with_node = with_node_pipe[i].call(APP, node, safe_render_options, with_node);
       if( result_with_node ) {
         if( result_with_node.replace_by_comment ) return result_with_node;
 
@@ -77,7 +75,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
 
     if( init_pipe.length ) {
       with_node.initNode = function (node_el) {
-        var _this = Object.create(app);
+        var _this = Object.create(APP);
         _this.onDetach = _onDetach.bind(node_el);
 
         for( var i = 0, n = init_pipe.length; i < n ; i++ ) {

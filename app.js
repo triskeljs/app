@@ -22,11 +22,11 @@ function createApp(options) {
       directive_ns = options.directive_ns || 'data',
       render_options = {};
 
-  var app = new RenderApp(render_options);
+  // var app = new RenderApp(render_options);
 
   // Data envelope for RenderApp
 
-  var APP = Object.create(app),
+  var APP = Object.create( new RenderApp(render_options) ),
       TEXT = createConText(APP);
 
   // APP.directive = function (directive, initNode, with_node) {
@@ -66,7 +66,7 @@ function createApp(options) {
 
     render_options = Object.create(render_options || {});
 
-    var this_app = Object.create(app),
+    var APP_ = Object.create(APP),
         // parent_app = render_options.parent_app || {},
         data = render_options.data || {},
         data_listeners = [],
@@ -81,10 +81,14 @@ function createApp(options) {
           });
         };
 
-    this_app.watchData = watchData;
-    this_app.updateData = updateData;
+    APP_.view_app = APP_.view_app || APP_;
+    APP_.watchData = watchData;
+    APP_.updateData = updateData;
+    APP_.render = function () {
+      return APP.render.apply(APP_, arguments);
+    };
 
-    var inserted_nodes = app.render.apply(this_app, arguments);
+    var inserted_nodes = APP_.render.apply(APP_, arguments);
 
     return {
       updateData: updateData,
@@ -96,8 +100,8 @@ function createApp(options) {
   return APP;
 }
 
-var app = createApp();
+var APP = createApp();
 
-app.createApp = createApp;
+APP.createApp = createApp;
 
-module.exports = app;
+module.exports = APP;
