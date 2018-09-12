@@ -19,7 +19,8 @@ module.exports = function (APP, TEXT, directive_ns) {
 
     // @TODO stuff
 
-    var repeat_options = Object.create(render_options),
+    var APP_ = this,
+        repeat_options = Object.create(render_options),
         parent_el = close_comment.parentElement,
         attr_value = this.attr_value,
         start_comment = document.createComment(' : ' + this.attr_key + ' : ' + attr_value + ' ' ),
@@ -41,7 +42,7 @@ module.exports = function (APP, TEXT, directive_ns) {
       node_options.data = _data;
       if( insert_before ) node_options.insert_before = insert_before;
 
-      var rendered_handler = APP.render(parent_el, [node], node_options);
+      var rendered_handler = APP_.render(parent_el, [node], node_options);
 
       return {
         el: rendered_handler.inserted_nodes[0].el,

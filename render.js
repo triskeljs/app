@@ -41,7 +41,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
 
       }) : { observe: function () {}, disconnect: function () {} };
 
-  app.view_app = app;
+  app.view_app = app.view_app || app;
 
   function _onDetach (listener) {
     if( !detach_queue.length ) mutation_observer.observe(parent_el, { childList: true, subtree: true });

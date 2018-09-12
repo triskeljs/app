@@ -4,8 +4,9 @@ module.exports = function (APP, TEXT, directive_ns) {
 
     // @TODO stuff
 
-    var parent_el = close_comment.parentElement,
-        attr_value = this.attr_value,
+    var APP_ = this,
+        parent_el = close_comment.parentElement,
+        attr_value = APP_.attr_value,
         start_comment = document.createComment(' : ' + this.attr_key + ' : ' + attr_value + ' ' ),
         if_options = Object.create(render_options),
         assertExpression = TEXT.eval(attr_value),
@@ -26,7 +27,7 @@ module.exports = function (APP, TEXT, directive_ns) {
         if_options.insert_before = close_comment;
         if_options.data = data;
 
-        rendered_handler = APP.render(parent_el, [node], if_options);
+        rendered_handler = APP_.render(parent_el, [node], if_options);
         inserted_node = rendered_handler.inserted_nodes[0].el;
       } else if( parent_el.contains(inserted_node) ) {
         parent_el.removeChild(inserted_node);
