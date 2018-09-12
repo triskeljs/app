@@ -72,19 +72,21 @@ function createApp(options) {
         watchData = function (onData) {
           data_listeners.push(onData);
           onData(data);
-        };
-
-    this_app.watchData = watchData;
-
-    var inserted_nodes = app.render.apply(this_app, arguments);
-
-    return {
-      updateData: function (_data) {
+        },
+        updateData = function (_data) {
           if( _data ) data = _data;
           data_listeners.forEach(function (listener) {
             listener(data);
           });
-      },
+        };
+
+    this_app.watchData = watchData;
+    this_app.updateData = updateData;
+
+    var inserted_nodes = app.render.apply(this_app, arguments);
+
+    return {
+      updateData: updateData,
       inserted_nodes: inserted_nodes,
     };
 
