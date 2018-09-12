@@ -81,7 +81,7 @@ function createApp(options) {
           });
         };
 
-    APP_.view_app = APP_.view_app || APP_;
+    APP_.render_app = APP_.render_app || APP_;
     APP_.watchData = watchData;
     APP_.updateData = updateData;
     APP_.render = function () {
