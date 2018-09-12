@@ -7,10 +7,10 @@ module.exports = function (APP, TEXT, directive_ns) {
   //   }
   // }
 
-  function _findDataItem(list, data_item, find_and_remove) {
+  function _findDataItem(list, data_item, seek_and_destroy) {
     for( var i = 0, n = list.length; i < n ; i++ ) {
       if( data_item === list[i].data_item ) {
-        return find_and_remove ? list.splice(i,1)[0] : list[i];
+        return seek_and_destroy ? list.splice(i,1)[0] : list[i];
       }
     }
   }
@@ -80,14 +80,14 @@ module.exports = function (APP, TEXT, directive_ns) {
       }
 
       var current_repeat = [],
-          i_list = 0, n_list = list.length - 1,
+          i = 0, n = list.length - 1,
           item_found;
 
-      while( i_list < n_list && previous_repeat.length ) {
-        item_found = _findDataItem(previous_repeat, list[i_list], true);
+      while( i < n && previous_repeat.length ) {
+        item_found = _findDataItem(previous_repeat, list[i], true);
         current_repeat.push( item_found ?
-          _updateRenderedData(item_found, data, list[i_list++]) :
-          _addListItem(data, list[i_list++])
+          _updateRenderedData(item_found, data, list[i++]) :
+          _addListItem(data, list[i++])
         );
       }
 
@@ -95,7 +95,7 @@ module.exports = function (APP, TEXT, directive_ns) {
         parent_el.removeChild( item.el );
       });
 
-      while( i_list < n_list ) current_repeat.push( _addListItem(data, list[i_list++]) );
+      while( i < n ) current_repeat.push( _addListItem(data, list[i++]) );
 
     });
 
