@@ -22,11 +22,11 @@ function createApp(options) {
       directive_ns = options.directive_ns || 'data',
       render_options = {};
 
-  // var app = new RenderApp(render_options);
+  var app = new RenderApp(render_options);
 
   // Data envelope for RenderApp
 
-  var APP = Object.create( new RenderApp(render_options) ),
+  var APP = Object.create( app ),
       TEXT = createConText(APP);
 
   // APP.directive = function (directive, initNode, with_node) {
@@ -88,7 +88,7 @@ function createApp(options) {
       return APP.render.apply(APP_, arguments);
     };
 
-    var inserted_nodes = APP_.render.apply(APP_, arguments);
+    var inserted_nodes = app.render.apply(APP_, arguments);
 
     return {
       updateData: updateData,
