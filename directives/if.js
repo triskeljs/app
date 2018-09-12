@@ -14,7 +14,6 @@ module.exports = function (APP, TEXT, directive_ns) {
     parent_el.insertBefore(start_comment, close_comment);
 
     if_options.insert_before = close_comment;
-    if_options.parent = render_options.parent || this;
 
     this.watchData(function (data) {
       if( assertExpression(data) ) {

@@ -20,7 +20,7 @@ function _isInList(list, item) {
 }
 
 RenderApp.prototype.render = function (parent_el, nodes, _options) {
-  var app = this,
+  var app = Object.create(this),
       render_options = _.extend( Object.create( app.options || {} ), _options || {} ),
       with_node_pipe = app.with_node_pipe,
       detach_queue = [],
@@ -40,6 +40,8 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
         });
 
       }) : { observe: function () {}, disconnect: function () {} };
+
+  app.view_app = app;
 
   function _onDetach (listener) {
     if( !detach_queue.length ) mutation_observer.observe(parent_el, { childList: true, subtree: true });

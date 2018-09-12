@@ -26,7 +26,6 @@ module.exports = function (APP, TEXT, directive_ns) {
         matched_expressions = attr_value.match(/(\w+?) in (.+)/);
 
     repeat_options.insert_before = close_comment;
-    repeat_options.parent = render_options.parent || this;
 
     if( !matched_expressions ) throw new Error('data-repeat invalid expression: ' + attr_value );
 
