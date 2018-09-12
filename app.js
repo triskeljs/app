@@ -62,11 +62,11 @@ function createApp(options) {
   if( add_directives.on ) addDirectiveOn(APP, TEXT, directive_ns);
   if( add_directives['class'] ) addDirectiveClass(APP, TEXT, directive_ns);
 
-  APP.render = function (_parent, _nodes, render_options) {
+  function _renderApp (_parent, _nodes, render_options) {
 
     render_options = Object.create(render_options || {});
 
-    var APP_ = Object.create(APP),
+    var APP_ = Object.create(this),
         // parent_app = render_options.parent_app || {},
         data = render_options.data || {},
         data_listeners = [],
@@ -84,9 +84,7 @@ function createApp(options) {
     APP_.render_app = APP_.render_app || APP_;
     APP_.watchData = watchData;
     APP_.updateData = updateData;
-    APP_.render = function () {
-      return APP.render.apply(APP_, arguments);
-    };
+    APP_.render = _renderApp.bind(APP_);
 
     Object.defineProperty(APP_, 'data', {
       get: function () {
@@ -107,7 +105,9 @@ function createApp(options) {
       inserted_nodes: inserted_nodes,
     };
 
-  };
+  }
+
+  APP.render = _renderApp.bind(APP);
 
   return APP;
 }
