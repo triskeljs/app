@@ -88,9 +88,21 @@ function createApp(options) {
       return APP.render.apply(APP_, arguments);
     };
 
+    Object.defineProperty(APP_, 'data', {
+      get: function () {
+        return data;
+      },
+    });
+
     var inserted_nodes = app.render.apply(APP_, arguments);
 
     return {
+      get data () {
+        return data;
+      },
+      set data (_data) {
+        updateData(_data);
+      },
       updateData: updateData,
       inserted_nodes: inserted_nodes,
     };
