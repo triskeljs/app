@@ -11,6 +11,8 @@ module.exports = function (APP, TEXT, directive_ns) {
       _this.updateData();
       if( result && result.then instanceof Function ) result.then(function () {
         _this.updateData();
+      }, function () {
+        _this.updateData();
       });
     });
 
