@@ -80,7 +80,7 @@ module.exports = function (APP, TEXT, directive_ns) {
       }
 
       var current_repeat = [],
-          i = 0, n = list.length - 1,
+          i = 0, n = list.length,
           item_found;
 
       while( i < n && previous_repeat.length ) {
