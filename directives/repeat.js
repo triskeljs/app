@@ -97,6 +97,8 @@ module.exports = function (APP, TEXT, directive_ns) {
 
       while( i < n ) current_repeat.push( _addListItem(data, list[i++]) );
 
+      previous_repeat = current_repeat;
+
     });
 
   }, function () {
