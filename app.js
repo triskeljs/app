@@ -40,13 +40,13 @@ function createApp(options) {
 
   // preset directives
 
-  APP.withNode(function (node) {
-    if( typeof node.text === 'string' ) return {
+  APP.withNode(function (text_node) {
+    if( typeof text_node === 'string' ) return {
       initNode: function (el) {
         // console.log('node.text', this, arguments);
-        var renderText = TEXT.interpolate(node.text);
+        var renderText = TEXT.interpolate(text_node);
 
-        if( el.parentElement && /{{.*}}/.test(node.text) ) el.parentElement.insertBefore( document.createComment(' text: ' + node.text + ' '), el );
+        if( el.parentElement && /{{.*}}/.test(text_node) ) el.parentElement.insertBefore( document.createComment(' text: ' + text_node + ' '), el );
 
         this.watchData(function (data) {
           var text = renderText(data);
