@@ -40,8 +40,10 @@ function createApp(options) {
 
   // preset directives
 
-  APP.withNode(function (text_node) {
-    if( typeof text_node === 'string' ) return {
+  APP.withNode(function (node) {
+    var text_node = typeof node === 'string' ? node : node.text;
+    
+    if( text_node ) return {
       initNode: function (el) {
         // console.log('node.text', this, arguments);
         var renderText = TEXT.interpolate(text_node);
