@@ -106,6 +106,7 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
     throw new TypeError('options should be a plain object (or a controller function)');
   }
 
+  render_options = render_options || {};
   if( options.data ) render_options.data = options.data;
 
   render_app.withNode(function (node) {
@@ -117,26 +118,23 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
 
     return _.extend( with_node, {
       initNode: options.controller && options.template ? function (node_el) {
-        var _this = this, _args = arguments;
+        var _this = Object.create(this), _args = arguments;
 
-        if( typeof options.template === 'string' ) {
-          node_el.innerHTML = options.template;
+        var template_ctrl = render_app.render(node_el, typeof options.template === 'string' ? [options.template] : options.template, render_options);
+        _this.updateData = template_ctrl.updateData;
 
-          return setTimeout(function () {
-            options.controller.apply(_this, _args);
-          });
+        if( _initNode instanceof Function ) _initNode.apply(_this, arguments);
+        options.controller.apply(_this, _args);
+      } : function (node_el) {
+        var _this = Object.create(this), template_ctrl;
+        if( typeof options.template === 'string' ) node_el.innerHTML = options.template;
+        else if( options.template ) {
+          template_ctrl = render_app.render(node_el, options.template, render_options);
+          _this.updateData = template_ctrl.updateData;
         }
 
-        render_app.render(node_el, options.template, render_options);
-        options.controller.apply(_this, _args);
-
-        if( _initNode instanceof Function ) _initNode.apply(this, arguments);
-      } : function (node_el) {
-        if( typeof options.template === 'string' ) node_el.innerHTML = options.template;
-        else if( options.template ) render_app.render(node_el, options.template, render_options);
-
-        if( _initNode instanceof Function ) _initNode.apply(this, arguments);
-        if( options.controller instanceof Function ) options.controller.apply(this, arguments);
+        if( _initNode instanceof Function ) _initNode.apply(_this, arguments);
+        if( options.controller instanceof Function ) options.controller.apply(_this, arguments);
       },
     });
 
