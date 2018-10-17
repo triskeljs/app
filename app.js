@@ -40,6 +40,10 @@ function createApp(options) {
 
   // preset directives
 
+  var special_chars = {
+    nbsp: ' ', hellip: '…', quot: '"',
+  };
+
   APP.withNode(function (node) {
     var text_node = typeof node === 'string' ? node : node.text;
 
@@ -52,7 +56,9 @@ function createApp(options) {
         if( el.parentElement && /{{.*}}/.test(text_node) ) el.parentElement.insertBefore( document.createComment(' text: ' + text_node + ' '), el );
 
         this.watchData(function (data) {
-          var text = renderText(data);
+          var text = renderText(data).replace(/&([a-z]+);/g, function (matched, special_char) {
+            return special_chars[special_char] || matched;
+          });
           if( text !== el.textContent ) el.textContent = text;
         });
       }
