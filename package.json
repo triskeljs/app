@@ -22,10 +22,10 @@
   },
   "homepage": "https://github.com/triskeljs/app#readme",
   "devDependencies": {
-    "eslint": "5.0.1"
+    "eslint": "5.7.0"
   },
   "dependencies": {
-    "@triskel/con-text": "1.0.8",
-    "@triskel/render": "1.0.8"
+    "@triskel/con-text": "1.0.9",
+    "@triskel/render": "1.0.9"
   }
 }
