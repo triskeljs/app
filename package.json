@@ -25,7 +25,7 @@
     "eslint": "5.7.0"
   },
   "dependencies": {
-    "@triskel/con-text": "1.0.10",
+    "@triskel/con-text": "1.0.12",
     "@triskel/render": "1.0.9"
   }
 }
