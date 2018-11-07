@@ -23,7 +23,7 @@ module.exports = function(config) {
       Chrome_no_sandbox: {
         base: 'Chrome',
         flags: ['--no-sandbox']
-      }
+      },
     },
     singleRun: true,
     reporters: ['story', 'coverage', 'coveralls'],
@@ -31,7 +31,7 @@ module.exports = function(config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'dist/render.umd.js': ['coverage']
+      'dist/app.umd.js': ['coverage']
     },
     coverageReporter: {
       type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
