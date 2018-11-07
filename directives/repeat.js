@@ -34,11 +34,13 @@ module.exports = function (APP, TEXT, directive_ns) {
         getList = TEXT.eval(matched_expressions[2]),
         previous_repeat = [];
 
-    function _addListItem (data, data_item, insert_before) {
+    function _addListItem (data, data_item, index, insert_before) {
       var _data = Object.create(data),
           node_options = Object.create(repeat_options);
 
       _data[list_key] = data_item;
+      _data.$index = index;
+
       node_options.data = _data;
       if( insert_before ) node_options.insert_before = insert_before;
 
@@ -52,10 +54,11 @@ module.exports = function (APP, TEXT, directive_ns) {
       };
     }
 
-    function _updateRenderedData (item, data, data_item) {
+    function _updateRenderedData (item, data, data_item, index) {
       var _data = Object.create(data);
 
       _data[list_key] = data_item;
+      _data.$index = index;
 
       item.rendered.updateData(_data);
       return item;
@@ -64,7 +67,8 @@ module.exports = function (APP, TEXT, directive_ns) {
     parent_el.insertBefore(start_comment, close_comment);
 
     this.watchData(function (data) {
-      var list = getList(data);
+      var list = getList(data),
+          index = 0;
 
       if( !(list instanceof Array) ) throw new Error('expression \'' + matched_expressions[2] + '\' should return an Array');
 
@@ -74,7 +78,7 @@ module.exports = function (APP, TEXT, directive_ns) {
 
       if( !previous_repeat.length ) {
         previous_repeat = list.map(function (data_item) {
-          return _addListItem(data, data_item);
+          return _addListItem(data, data_item, index++);
         });
         return;
       }
@@ -86,8 +90,8 @@ module.exports = function (APP, TEXT, directive_ns) {
       while( i < n && previous_repeat.length ) {
         item_found = _findDataItem(previous_repeat, list[i], true);
         current_repeat.push( item_found ?
-          _updateRenderedData(item_found, data, list[i++]) :
-          _addListItem(data, list[i++])
+          _updateRenderedData(item_found, data, list[i++], index++) :
+          _addListItem(data, list[i++], index++)
         );
       }
 
@@ -95,7 +99,7 @@ module.exports = function (APP, TEXT, directive_ns) {
         parent_el.removeChild( item.el );
       });
 
-      while( i < n ) current_repeat.push( _addListItem(data, list[i++]) );
+      while( i < n ) current_repeat.push( _addListItem(data, list[i++], index++) );
 
       previous_repeat = current_repeat;
 

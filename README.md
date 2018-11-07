@@ -21,9 +21,7 @@ npm install @triskel/app --save-dev
 `RenderApp` creates an instance with a context for rendering
 
 ``` js
-var RenderApp = require('@triskel/app');
-
-var APP = new RenderApp();
+var APP = require('@triskel/app');
 ```
 
 ### TriskelApp instance:
