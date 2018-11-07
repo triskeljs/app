@@ -131,6 +131,28 @@ var APP = new RenderApp();
   });
   ```
 
-- APP.`directive`()
+- APP.`directive`(attribute_match `String`, initNode `Function`, withNode `Function`)
+  - `attribute_match`: string received will be evaluated as /^attribute_match$/
+  - withNode: Special withNode that receives:
+    `this.attr_key` and `this.attr_value`
+
+> Directive example
+
+``` js
+APP.directive('if-mobile', function (node_el) {
+
+  if( this.attr_value === 'log' ) {
+    console.log('node has being rendered')
+  }
+
+}, function withNode (node) {
+  console.log(this.attr_key); // results: 'if-mobile'
+  console.log(this.attr_value); // results: <value of attribute>
+
+  if( matchMedia('(max-width: 768px)').matches ) return {
+    replace_by_comment: 'if-mobile: ' + this.attr_value,
+  };
+});
+```
 
 [TSList]: https://triskeljs.github.io/#triskel-structured-list-tslist
