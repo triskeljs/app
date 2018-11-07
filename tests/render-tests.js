@@ -16,4 +16,38 @@ describe('rendering HTML', function () {
 
   });
 
+  it('render data', function () {
+
+    APP.render(document.body, [{
+      $: 'div', _: 'Hi {{ first_name }}!',
+    }], {
+      data: {
+        first_name: 'John',
+      },
+    });
+
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>');
+
+  });
+
+  it('update rendered data', function () {
+
+    var view = APP.render(document.body, [{
+      $: 'div', _: 'Hi {{ first_name }}!',
+    }], {
+      data: {
+        first_name: 'John',
+      },
+    });
+
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>');
+
+    view.updateData({
+      first_name: 'Jack',
+    });
+
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi Jack!</div>');
+
+  });
+
 });
