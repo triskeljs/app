@@ -122,6 +122,9 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
 
         var template_ctrl = render_app.render(node_el, typeof options.template === 'string' ? [options.template] : options.template, render_options);
         _this.updateData = template_ctrl.updateData;
+        _this.watchData(function () {
+          _this.updateData();
+        });
 
         if( _initNode instanceof Function ) _initNode.apply(_this, arguments);
         options.controller.apply(_this, _args);
@@ -131,6 +134,9 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
         else if( options.template ) {
           template_ctrl = render_app.render(node_el, options.template, render_options);
           _this.updateData = template_ctrl.updateData;
+          _this.watchData(function () {
+            _this.updateData();
+          });
         }
 
         if( _initNode instanceof Function ) _initNode.apply(_this, arguments);
