@@ -6,17 +6,17 @@ module.exports = function (APP, TEXT, directive_ns) {
         onTrigger = new Function('data', 'with(data) { return(' + this.attr_value + ') };'),
         data = render_options && render_options.data || {},
         _updateData = function () {
-          _render_app.updateData();
-        };
+          _render_app.updateData()
+        }
 
     node_el.addEventListener(event_name, function () {
-      var result = onTrigger.call(node_el, data);
-      _updateData();
-      if( result && result.then instanceof Function ) result.then(_updateData, _updateData);
-    });
+      var result = onTrigger.call(node_el, data)
+      _updateData()
+      if( result && result.then instanceof Function ) result.then(_updateData, _updateData)
+    })
 
     this.watchData(function (_data) {
-      data = _data;
-    });
-  });
-};
+      data = _data
+    })
+  })
+}

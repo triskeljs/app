@@ -22,7 +22,7 @@ module.exports = function(config) {
     customLaunchers: {
       Chrome_no_sandbox: {
         base: 'Chrome',
-        flags: ['--no-sandbox']
+        flags: ['--no-sandbox'],
       },
     },
     singleRun: true,
@@ -31,7 +31,7 @@ module.exports = function(config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'dist/app.umd.js': ['coverage']
+      'dist/app.umd.js': ['coverage'],
     },
     coverageReporter: {
       type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
@@ -39,7 +39,7 @@ module.exports = function(config) {
     },
   };
 
-  if(process.env.TRAVIS){
+  if( process.env.TRAVIS ) {
     configuration.browsers = [ 'Chrome_no_sandbox', 'Firefox' ];
     configuration.concurrency = 1;
   }

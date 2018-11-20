@@ -4,17 +4,21 @@ describe('rendering HTML', function () {
 
   beforeEach(function () {
     while( document.body.firstChild ) {
-      document.body.removeChild(document.body.firstChild);
+      document.body.removeChild(document.body.firstChild)
     }
-  });
+  })
 
   it('render error', function () {
 
     assert.throws(function () {
-      APP.render(document.body, [{}]);
-    }, TypeError);
+      APP.render(document.body, [{}])
+    }, TypeError)
 
-  });
+    assert.throws(function () {
+      APP.render(document.body, [{ foo: 'bar' }])
+    }, TypeError)
+
+  })
 
   it('render data', function () {
 
@@ -24,11 +28,11 @@ describe('rendering HTML', function () {
       data: {
         first_name: 'John',
       },
-    });
+    })
 
-    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>');
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>')
 
-  });
+  })
 
   it('update rendered data', function () {
 
@@ -38,16 +42,16 @@ describe('rendering HTML', function () {
       data: {
         first_name: 'John',
       },
-    });
+    })
 
-    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>');
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>')
 
     view.updateData({
       first_name: 'Jack',
-    });
+    })
 
-    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi Jack!</div>');
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi Jack!</div>')
 
-  });
+  })
 
-});
+})
