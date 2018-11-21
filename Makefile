@@ -23,7 +23,7 @@ ifndef NPM_VERSION
   export NPM_VERSION=patch
 endif
 npm.publish:
-  @echo "building ${NPM_VERSION}"
+	echo "building ${NPM_VERSION}"
 	git pull --tags
 	npm version ${NPM_VERSION}
 	git push origin $(git_branch) && git push --tags
