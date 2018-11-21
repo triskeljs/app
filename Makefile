@@ -11,7 +11,12 @@ eslint:
 	$(shell npm bin)/eslint render.js
 	$(shell npm bin)/eslint utils.js
 
-test: install eslint
+build:
+	# $(shell npm bin)/rollup app.js --output.format cjs --output.file dist/app.cjs.js
+	$(shell npm bin)/rollup app.js --output.format umd --output.file dist/app.umd.js -n APP -c rollup.config.js
+
+test: install eslint build
+	$(shell npm bin)/karma start karma.conf.js
 
 npm.publish:
 	git pull --tags
