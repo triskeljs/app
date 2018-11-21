@@ -5,11 +5,12 @@ Compact, reliable and customizable HTML minifier.
 
 [![ᴋɪʟᴛ ᴊs](https://jesus.germade.es/assets/images/badge-kiltjs.svg)](https://github.com/kiltjs)
 [![npm](https://img.shields.io/npm/v/@triskel/app.svg?maxAge=300)](https://www.npmjs.com/package/@triskel/app)
+[![bundlephobia](https://badgen.net/bundlephobia/minzip/@triskel/app)](https://bundlephobia.com/result?p=@triskel/app)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 [![Build Status](https://travis-ci.org/triskeljs/app.svg?branch=master)](https://travis-ci.org/triskeljs/app)
 [![Coverage Status](https://coveralls.io/repos/github/triskeljs/app/badge.svg)](https://coveralls.io/github/triskeljs/app)
 [![dependencies Status](https://david-dm.org/triskeljs/app/status.svg?maxAge=300)](https://david-dm.org/triskeljs/app)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-
 
 ### Installation
 
