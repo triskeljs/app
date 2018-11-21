@@ -120,7 +120,7 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
       initNode: options.controller && options.template ? function (node_el) {
         var _this = Object.create(this), _args = arguments
 
-        var template_ctrl = render_app.render(node_el, typeof options.template === 'string' ? [options.template] : options.template, render_options);
+        var template_ctrl = render_app.render(node_el, typeof options.template === 'string' ? [options.template] : options.template, render_options)
         _this.updateData = template_ctrl.updateData
         _this.watchData(function () {
           _this.updateData()
