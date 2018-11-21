@@ -13,7 +13,7 @@ describe('directive [data-bind]', function () {
     return text + 'bar'
   })
 
-  it('render error', function () {
+  it('[data-bind] error', function () {
 
     assert.throws( function () {
 
@@ -28,7 +28,7 @@ describe('directive [data-bind]', function () {
 
   })
 
-  it('render foobar', function () {
+  it('[data-bind] foo ', function () {
 
     _APP.render(document.body, [{
       $: 'div',
@@ -45,7 +45,7 @@ describe('directive [data-bind]', function () {
 
   })
 
-  it('render foo | bar', function () {
+  it('[data-bind] foo | bar', function () {
 
     _APP.render(document.body, [{
       $: 'div',
