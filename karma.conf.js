@@ -37,12 +37,12 @@ module.exports = function(config) {
       type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
       dir: 'coverage/'
     },
-  };
-
-  if( process.env.TRAVIS ) {
-    configuration.browsers = [ 'Chrome_no_sandbox', 'Firefox' ];
-    configuration.concurrency = 1;
   }
 
-  config.set(configuration);
-};
+  if( process.env.TRAVIS ) {
+    configuration.browsers = [ 'Chrome_no_sandbox', 'Firefox' ]
+    configuration.concurrency = 1
+  }
+
+  config.set(configuration)
+}
