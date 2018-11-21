@@ -16,7 +16,9 @@ module.exports = function(config) {
     ],
     files: [
       'dist/app.umd.js',
+      'tests/_expose-render-nodes.js',
       'tests/{,**/}*-tests.js',
+      'node_modules/@triskel/render/tests/{,**/}*-tests.js',
     ],
     // browsers: [ 'Chrome', 'Firefox' ],
     browsers: [ 'ChromeHeadless', 'FirefoxHeadless' ],

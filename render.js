@@ -12,6 +12,8 @@ function RenderApp (_options) {
   this.options = options
 }
 
+RenderApp.prototype.simpleRender = renderNodes
+
 function _isInList(list, item) {
   for( var i = list.length - 1; i >= 0 ; i-- ) {
     if( item === list[i] ) return true
