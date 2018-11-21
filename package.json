@@ -1,6 +1,6 @@
 {
   "name": "@triskel/app",
-  "version": "1.0.74",
+  "version": "1.0.75",
   "description": "triskel HTML renderer app",
   "main": "app.js",
   "scripts": {
