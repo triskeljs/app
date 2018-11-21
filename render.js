@@ -107,8 +107,7 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
   }
 
   render_options = render_options || {}
-  if( options.data ) render_options.data = options.data
-
+  
   render_app.withNode(function (node) {
 
     if( node.$ !== tag_name ) return
@@ -117,25 +116,30 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
         _initNode = with_node.initNode
 
     return _.extend( with_node, {
-      initNode: options.controller && options.template ? function (node_el) {
+      initNode: options.controller && options.template ? function (node_el, _node, _options) {
         var _this = Object.create(this), _args = arguments
 
-        var template_ctrl = render_app.render(node_el, typeof options.template === 'string' ? [options.template] : options.template, render_options)
+        if( !render_options.data && _options.data ) render_options.data = _options.data
+        var template_ctrl = render_app.render(node_el,
+          typeof options.template === 'string' ? [options.template] : options.template
+        , render_options)
+
         _this.updateData = template_ctrl.updateData
         _this.watchData(function () {
-          _this.updateData()
+          template_ctrl.updateData()
         })
 
         if( _initNode instanceof Function ) _initNode.apply(_this, arguments)
         options.controller.apply(_this, _args)
-      } : function (node_el) {
+      } : function (node_el, _node, _options) {
         var _this = Object.create(this), template_ctrl
         if( typeof options.template === 'string' ) node_el.innerHTML = options.template
         else if( options.template ) {
+          if( !render_options.data && _options.data ) render_options.data = _options.data
           template_ctrl = render_app.render(node_el, options.template, render_options)
           _this.updateData = template_ctrl.updateData
           _this.watchData(function () {
-            _this.updateData()
+            template_ctrl.updateData()
           })
         }
 
