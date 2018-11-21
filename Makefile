@@ -3,6 +3,10 @@ git_branch := $(shell git rev-parse --abbrev-ref HEAD)
 
 .PHONY: test release
 
+ifndef NPM_VERSION
+  export NPM_VERSION=patch
+endif
+
 install:
 	npm install
 
@@ -18,10 +22,6 @@ build:
 test: install eslint build
 	$(shell npm bin)/karma start karma.conf.js
 
-npm.publish:
-ifndef NPM_VERSION
-  export NPM_VERSION=patch
-endif
 npm.publish:
 	echo "building ${NPM_VERSION}"
 	git pull --tags
