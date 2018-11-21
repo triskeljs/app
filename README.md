@@ -3,7 +3,6 @@
 
 Compact, reliable and customizable HTML minifier.
 
-[![ᴋɪʟᴛ ᴊs](https://jesus.germade.es/assets/images/badge-kiltjs.svg)](https://github.com/kiltjs)
 [![npm](https://img.shields.io/npm/v/@triskel/app.svg?maxAge=300)](https://www.npmjs.com/package/@triskel/app)
 [![bundlephobia](https://badgen.net/bundlephobia/minzip/@triskel/app)](https://bundlephobia.com/result?p=@triskel/app)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
