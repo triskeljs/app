@@ -19,8 +19,12 @@ test: install eslint build
 	$(shell npm bin)/karma start karma.conf.js
 
 npm.publish:
+ifndef NPM_VERSION
+  export NPM_VERSION=patch
+endif
+npm.publish:
 	git pull --tags
-	npm version patch
+	npm version ${NPM_VERSION}
 	git push origin $(git_branch) && git push --tags
 	npm publish --access public
 
