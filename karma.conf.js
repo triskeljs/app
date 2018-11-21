@@ -11,7 +11,8 @@ module.exports = function(config) {
       'karma-coveralls',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
-      'karma-story-reporter'
+      'karma-story-reporter',
+      'karma-mocha-reporter',
     ],
     files: [
       'dist/app.umd.js',
@@ -26,7 +27,7 @@ module.exports = function(config) {
       },
     },
     singleRun: true,
-    reporters: ['story', 'coverage', 'coveralls'],
+    reporters: ['story', 'mocha', 'coverage', 'coveralls'],
     preprocessors: {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
