@@ -26,7 +26,22 @@ describe('directive [data-bind]', function () {
     return text + 'bar'
   })
 
-  it('render error', function () {
+  it('render error expression', function () {
+
+    assert.throws( function () {
+
+      _APP.render(document.body, [{
+        $: 'div',
+        attrs: {
+          'data-repeat': ' foo bar ',
+        },
+      }])
+
+    }, Error )
+
+  })
+
+  it('render error missing list', function () {
 
     assert.throws( function () {
 

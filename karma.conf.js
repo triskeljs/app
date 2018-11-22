@@ -15,9 +15,9 @@ module.exports = function(config) {
       'karma-mocha-reporter',
     ],
     files: [
-      'dist/app.umd.js',
-      'tests/_expose-render-nodes.js',
+      'tests/_karma-app.js',
       'tests/{,**/}*-tests.js',
+      'node_modules/@triskel/con-text/tests/{,**/}*-tests.js',
       'node_modules/@triskel/render/tests/{,**/}*-tests.js',
     ],
     // browsers: [ 'Chrome', 'Firefox' ],
@@ -34,7 +34,7 @@ module.exports = function(config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'dist/app.umd.js': ['coverage'],
+      'tests/_karma-app.js': ['coverage'],
     },
     coverageReporter: {
       type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
