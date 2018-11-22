@@ -70,7 +70,10 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
     }
 
     for( i = 0, n = _with_node_pipe.length ; i < n ; i++ ) {
-      result_with_node = _with_node_pipe[i].call(APP, node, safe_render_options, with_node)
+      result_with_node = _with_node_pipe[i] instanceof Function ?
+        _with_node_pipe[i].call(APP, node, safe_render_options, with_node) :
+        _with_node_pipe[i]
+
       if( result_with_node ) {
         if( result_with_node.replace_by_comment ) return result_with_node
 

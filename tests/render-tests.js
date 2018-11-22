@@ -60,6 +60,20 @@ describe('rendering HTML', function () {
 
   })
 
+  it('render data (special_html_char)', function () {
+
+    APP.render(document.body, [{
+      $: 'div', _: 'Hi&nbsp;{{ first_name }}!',
+    }], {
+      data: {
+        first_name: 'John',
+      },
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi&nbsp;{{ first_name }}! -->Hi John!</div>')
+
+  })
+
   it('update rendered data', function () {
 
     var view = APP.render(document.body, [{

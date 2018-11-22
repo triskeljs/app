@@ -83,6 +83,29 @@ describe('directive [data-if]', function () {
 
   })
 
+  it('foo = false then foo = false', function () {
+
+    var _view = _APP.render(document.body, [{
+      $: 'div',
+      attrs: {
+        'data-if': ' foo ',
+      },
+    }], {
+      data: {
+        foo: false
+      },
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo  --><!-- / data-if -->', 'foo = false')
+
+    _view.updateData({
+      foo: false
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo  --><!-- / data-if -->', 'foo = false')
+
+  })
+
   it('foo = true then foo = false', function () {
 
     var _view = _APP.render(document.body, [{
@@ -103,6 +126,58 @@ describe('directive [data-if]', function () {
     })
     
     assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo  --><!-- / data-if -->', 'foo = false')
+
+  })
+
+  it('foo = true then foo = true', function () {
+
+    var _view = _APP.render(document.body, [{
+      $: 'div',
+      attrs: {
+        'data-if': ' foo ',
+      },
+    }], {
+      data: {
+        foo: true
+      },
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo  --><div data-if=" foo "></div><!-- / data-if -->', 'foo = true')
+    
+    _view.updateData({
+      foo: true
+    })
+    
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo  --><div data-if=" foo "></div><!-- / data-if -->', 'foo = true')
+
+  })
+
+  it('foo = true then foo = false then foo = true', function () {
+
+    var _view = _APP.render(document.body, [{
+      $: 'div',
+      attrs: {
+        'data-if': ' foo ',
+      },
+    }], {
+      data: {
+        foo: true
+      },
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo  --><div data-if=" foo "></div><!-- / data-if -->', 'foo = true')
+
+    _view.updateData({
+      foo: false
+    })
+    
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo  --><!-- / data-if -->', 'foo = false')
+    
+    _view.updateData({
+      foo: true
+    })
+    
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo  --><div data-if=" foo "></div><!-- / data-if -->', 'foo = true')
 
   })
 

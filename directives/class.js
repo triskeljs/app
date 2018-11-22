@@ -1,8 +1,9 @@
 
 function _getClassFromItem (class_item) {
+  if( !class_item ) return ''
   if( typeof class_item === 'string' ) return class_item
-  if( class_item && typeof class_item === 'object' ) return _getClassesFromObject(class_item)
   if( class_item instanceof Array ) return _getClassesFromArray(class_item)
+  if( class_item && typeof class_item === 'object' ) return _getClassesFromObject(class_item)
   throw new TypeError('directive class values should be Array, plain Objects or Strings')
 }
 
@@ -10,7 +11,7 @@ function _getClassesFromObject (o) {
   var result = ''
   for( var key in o ) {
     if( o[key] ) {
-      result += ' ' + key
+      result += ( result ? ' ' : '' ) + key
       if( o[key] !== true ) result += ' ' + key + o[key]
     }
   }

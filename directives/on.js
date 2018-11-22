@@ -9,6 +9,7 @@ module.exports = function (APP, TEXT, directive_ns) {
           _render_app.updateData()
         }
 
+    console.error('data-on', event_name)
     node_el.addEventListener(event_name, function () {
       var result = onTrigger.call(node_el, data)
       _updateData()
