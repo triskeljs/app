@@ -106,4 +106,60 @@ describe('directive [data-if]', function () {
 
   })
 
+  it('foo.bar = undefined', function () {
+
+    _APP.render(document.body, [{
+      $: 'div',
+      attrs: {
+        'data-if': ' foo.bar ',
+      },
+    }], {
+      data: {
+        foo: {
+        },
+      },
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo.bar  --><!-- / data-if -->')
+
+  })
+
+  it('foo.bar = false', function () {
+
+    _APP.render(document.body, [{
+      $: 'div',
+      attrs: {
+        'data-if': ' foo.bar ',
+      },
+    }], {
+      data: {
+        foo: {
+          bar: false,
+        },
+      },
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo.bar  --><!-- / data-if -->')
+
+  })
+
+  it('foo.bar = true', function () {
+
+    _APP.render(document.body, [{
+      $: 'div',
+      attrs: {
+        'data-if': ' foo.bar ',
+      },
+    }], {
+      data: {
+        foo: {
+          bar: true
+        }
+      },
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<!-- : data-if :  foo.bar  --><div data-if=" foo.bar "></div><!-- / data-if -->')
+
+  })
+
 })
