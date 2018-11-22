@@ -2,14 +2,16 @@
 var _ = require('./utils'),
     renderNodes = require('@triskel/render')
 
+function _noop () {}
+
 module.exports = RenderApp
 
 function RenderApp (_options) {
-  var options = Object.create(_options || {})
+  // var options = Object.create(_options || {})
 
   this.with_node_pipe = []
 
-  this.options = options
+  this.options = _options ||{}
 }
 
 RenderApp.prototype.simpleRender = renderNodes
@@ -22,8 +24,11 @@ function _isInList(list, item) {
 }
 
 RenderApp.prototype.render = function (parent_el, nodes, _options) {
+  if( nodes instanceof Array === false ) throw new TypeError('render nodes should be an Array')
+
+  _options = _options || {}
   var APP = Object.create(this),
-      render_options = _.extend( Object.create( APP.options || {} ), _options || {} ),
+      render_options = _.extend( Object.create( APP.options || {} ), _options ),
       with_node_pipe = APP.with_node_pipe,
       detach_queue = [],
       _processDetachQueue = function (detached_nodes) {
@@ -41,7 +46,7 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
           _processDetachQueue(mutation.removedNodes)
         })
 
-      }) : { observe: function () {}, disconnect: function () {} }
+      }) : { observe: _noop, disconnect: _noop }
 
   function _onDetach (listener) {
     if( !detach_queue.length ) mutation_observer.observe(parent_el, { childList: true, subtree: true })
@@ -51,20 +56,28 @@ RenderApp.prototype.render = function (parent_el, nodes, _options) {
   parent_el = parent_el || document.createElement('div')
 
   var safe_render_options = Object.create(render_options)
+  safe_render_options.withNode = null
+
   render_options.withNode = function (node) {
     var with_node = {},
         init_pipe = [],
-        i, n, result_with_node
+        i, n, result_with_node,
+        _with_node_pipe = with_node_pipe
 
-    for( i = 0, n = with_node_pipe.length ; i < n ; i++ ) {
-      result_with_node = with_node_pipe[i].call(APP, node, safe_render_options, with_node)
+    if( _options.withNode ) {
+      _with_node_pipe = _with_node_pipe.slice()
+      _with_node_pipe.unshift(_options.withNode)
+    }
+
+    for( i = 0, n = _with_node_pipe.length ; i < n ; i++ ) {
+      result_with_node = _with_node_pipe[i].call(APP, node, safe_render_options, with_node)
       if( result_with_node ) {
         if( result_with_node.replace_by_comment ) return result_with_node
 
         if( result_with_node.initNode ) {
           if( typeof result_with_node.initNode !== 'function' ) {
             console.error('initNode should be a function', result_with_node.initNode ); // eslint-disable-line
-            throw new Error('initNode should be a function')
+            throw new TypeError('initNode should be a Function')
           }
 
           init_pipe.push(result_with_node.initNode)
@@ -98,33 +111,29 @@ RenderApp.prototype.withNode = function (withNode) {
   return this
 }
 
-RenderApp.prototype.component = function (tag_name, options, render_options) {
+RenderApp.prototype.component = function (tag_name, options, template_options) {
   var render_app = this
-
-  if( options === undefined ) options = {}
 
   if( options instanceof Function ) options = { controller: options }
   else if( !options || typeof options !== 'object' ) {
     throw new TypeError('options should be a plain object (or a controller function)')
   }
 
-  render_options = render_options || {}
+  template_options = template_options ? Object.create(template_options) : {}
   
   render_app.withNode(function (node) {
 
     if( node.$ !== tag_name ) return
 
-    var with_node = options.withNode && options.withNode.apply(render_app, arguments) || {},
-        _initNode = with_node.initNode
+    var _with_node = options.withNode && options.withNode.apply(render_app, arguments) || {},
+        _initNode = _with_node.initNode
 
-    return _.extend( with_node, {
+    return _.extend( _with_node, {
       initNode: options.controller && options.template ? function (node_el, _node, _options) {
         var _this = Object.create(this), _args = arguments
 
-        if( !render_options.data && _options.data ) render_options.data = _options.data
-        var template_ctrl = render_app.render(node_el,
-          typeof options.template === 'string' ? [options.template] : options.template
-        , render_options)
+        if( !template_options.data && _options.data ) template_options.data = _options.data
+        var template_ctrl = render_app.render(node_el, options.template, template_options)
 
         _this.updateData = template_ctrl.updateData
         _this.watchData(function () {
@@ -134,14 +143,15 @@ RenderApp.prototype.component = function (tag_name, options, render_options) {
         if( _initNode instanceof Function ) _initNode.apply(_this, arguments)
         options.controller.apply(_this, _args)
       } : function (node_el, _node, _options) {
-        var _this = Object.create(this), template_ctrl
-        if( typeof options.template === 'string' ) node_el.innerHTML = options.template
-        else if( options.template ) {
-          if( !render_options.data && _options.data ) render_options.data = _options.data
-          template_ctrl = render_app.render(node_el, options.template, render_options)
-          _this.updateData = template_ctrl.updateData
+        var _this = Object.create(this),
+            _template_ctrl
+        
+        if( options.template ) {
+          if( !template_options.data && _options.data ) template_options.data = _options.data
+          _template_ctrl = render_app.render(node_el, options.template, template_options)
+          _this.updateData = _template_ctrl.updateData
           _this.watchData(function () {
-            template_ctrl.updateData()
+            _template_ctrl.updateData()
           })
         }
 

@@ -18,6 +18,32 @@ describe('rendering HTML', function () {
       APP.render(document.body, [{ foo: 'bar' }])
     }, TypeError)
 
+    assert.throws(function () {
+      APP.render(document.body, [{ $: 'foo' }], {
+        withNode: function () {
+          return {
+            initNode: 123
+          }
+        }
+      })
+    }, TypeError)
+
+  })
+
+  it('render options.withNode', function () {
+
+    var with_node_called = false
+
+    APP.render(document.body, [{
+      $: 'div', _: 'Hi {{ first_name }}!',
+    }], {
+      withNode: function () {
+        with_node_called = true
+      },
+    })
+
+    assert.strictEqual(with_node_called, true)
+
   })
 
   it('render data', function () {
@@ -53,5 +79,16 @@ describe('rendering HTML', function () {
     assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi Jack!</div>')
 
   })
+
+})
+
+it('render outside dom', function () {
+
+  var render_ctrl = APP.render(null, [{
+    $: 'v-div',
+  }])
+
+  assert.strictEqual(render_ctrl.inserted_nodes.length, 1)
+  assert.strictEqual(render_ctrl.inserted_nodes[0].el.nodeName, 'V-DIV')
 
 })

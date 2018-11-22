@@ -1,5 +1,5 @@
-var resolve = require('rollup-plugin-node-resolve');
-var commonjs = require('rollup-plugin-commonjs');
+var resolve = require('rollup-plugin-node-resolve')
+var commonjs = require('rollup-plugin-commonjs')
 
 export default {
   plugins: [
@@ -11,4 +11,4 @@ export default {
       // include: 'node_modules/**',
     }),
   ],
-};
+}

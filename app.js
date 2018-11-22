@@ -50,7 +50,7 @@ function createApp(options) {
     if( text_node ) return {
       replace_text: '',
       initNode: function (el) {
-        // console.log('node.text', this, arguments);
+        // console.log('node.text', arguments)
         var renderText = TEXT.interpolate(text_node)
 
         if( el.parentElement && /{{.*}}/.test(text_node) ) el.parentElement.insertBefore( document.createComment(' text: ' + text_node + ' '), el )
