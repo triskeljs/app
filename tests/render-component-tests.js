@@ -238,6 +238,45 @@ describe('APP.component', function () {
 
   })
 
+  it('rendering template component.data', function () {
+
+    var _APP = APP.createApp()
+
+    _APP.component('my-div', {
+      template: ['Hi {{ first_name }}!'],
+      data: {
+        first_name: 'John',
+      },
+    })
+
+    _APP.render(document.body, [{
+      $: 'my-div'
+    }])
+
+    assert.strictEqual(document.body.innerHTML, '<my-div><!-- text: Hi {{ first_name }}! -->Hi John!</my-div>')
+
+  })
+
+  it('rendering template component template_options.data', function () {
+
+    var _APP = APP.createApp()
+
+    _APP.component('my-div', {
+      template: ['Hi {{ first_name }}!'],
+    }, {
+      data: {
+        first_name: 'John',
+      },
+    })
+
+    _APP.render(document.body, [{
+      $: 'my-div'
+    }])
+
+    assert.strictEqual(document.body.innerHTML, '<my-div><!-- text: Hi {{ first_name }}! -->Hi John!</my-div>')
+
+  })
+
   it('rendering template overrides', function () {
 
     var _APP = APP.createApp()

@@ -120,6 +120,7 @@ RenderApp.prototype.component = function (tag_name, options, template_options) {
   }
 
   template_options = template_options ? Object.create(template_options) : {}
+  if( !template_options.data && options.data ) template_options.data = options.data
   
   render_app.withNode(function (node) {
 
@@ -129,10 +130,10 @@ RenderApp.prototype.component = function (tag_name, options, template_options) {
         _initNode = _with_node.initNode
 
     return _.extend( _with_node, {
-      initNode: options.controller && options.template ? function (node_el, _node, _options) {
+      initNode: options.controller && options.template ? function (node_el, _node, render_options) {
         var _this = Object.create(this), _args = arguments
 
-        if( !template_options.data && _options.data ) template_options.data = _options.data
+        if( !template_options.data && render_options.data ) template_options.data = render_options.data
         var template_ctrl = render_app.render(node_el, options.template, template_options)
 
         _this.updateData = template_ctrl.updateData
@@ -142,12 +143,12 @@ RenderApp.prototype.component = function (tag_name, options, template_options) {
 
         if( _initNode instanceof Function ) _initNode.apply(_this, arguments)
         options.controller.apply(_this, _args)
-      } : function (node_el, _node, _options) {
+      } : function (node_el, _node, render_options) {
         var _this = Object.create(this),
             _template_ctrl
         
         if( options.template ) {
-          if( !template_options.data && _options.data ) template_options.data = _options.data
+          if( !template_options.data && render_options.data ) template_options.data = render_options.data
           _template_ctrl = render_app.render(node_el, options.template, template_options)
           _this.updateData = _template_ctrl.updateData
           _this.watchData(function () {
