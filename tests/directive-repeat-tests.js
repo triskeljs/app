@@ -67,7 +67,7 @@ describe('directive [data-bind]', function () {
 
     it(`[data-repeat=${ repeat_expression }]/{text: ${ text_expression } } (${ data_set.join(',') }) => ${ expected_items.join(',') }`, function () {
 
-      _APP.render(document.body, [{
+      var _view = _APP.render(document.body, [{
         $: 'div',
         attrs: {
           'data-repeat': repeat_expression,
@@ -82,6 +82,16 @@ describe('directive [data-bind]', function () {
       assert.strictEqual(document.body.innerHTML,
         _resultRepeat( repeat_expression, text_expression, expected_items )
       )
+
+      var inserted_nodes = [].map.call(document.body.children, function (el) {
+        return el
+      })
+
+      _view.updateData()
+
+      ;[].forEach.call(document.body.children, function (el, i) {
+        assert.strictEqual(el, inserted_nodes[i])
+      })
   
     })
 
