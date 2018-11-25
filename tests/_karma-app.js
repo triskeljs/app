@@ -531,18 +531,18 @@
 
   var repeat = function (APP, TEXT, directive_ns) {
 
-    // function _findDataItem(list, data_item, seek_and_destroy) {
-    //   for( var i = 0, n = list.length; i < n ; i++ ) {
-    //     if( data_item === list[i].data_item ) {
-    //       return seek_and_destroy ? list.splice(i,1)[0] : list[i]
-    //     }
-    //   }
-    // }
-
-    function _forEach (list, _each) {
-      if( list instanceof Array ) list.forEach(_each);
-      else for( var key in list ) _each(list[key], key);
+    function _findDataItem(list, data_item, seek_and_destroy) {
+      for( var i = 0, n = list.length; i < n ; i++ ) {
+        if( data_item === list[i].data_item ) {
+          return seek_and_destroy ? list.splice(i,1)[0] : list[i]
+        }
+      }
     }
+
+    // function _forEach (list, _each) {
+    //   if( list instanceof Array ) list.forEach(_each)
+    //   else for( var key in list ) _each(list[key], key)
+    // }
 
     APP.directive(directive_ns + '-repeat', function (close_comment, node, render_options, _with_node) {
 
@@ -609,57 +609,57 @@
 
       this.watchData(function (data) {
         var list = getList(data),
-            index = 0,
-            current_repeat = [];
+            index = 0;
+            // current_repeat = []
 
-        if( !list || typeof list !== 'object' ) throw new TypeError('expression \'' + matched_expressions[3] + '\' should return an Array or an Object')
+        // if( !list || typeof list !== 'object' ) throw new TypeError('expression \'' + matched_expressions[3] + '\' should return an Array or an Object')
 
-        _forEach(list, function (data_item, i) {
-          current_repeat.push( previous_repeat[i] ?
-            _updateRenderedData(previous_repeat[i], data, data_item, index++) :
-            _addListItem(data, data_item, index++)
-          );
-        });
-
-        while( previous_repeat[index] ) {
-          parent_el.removeChild( previous_repeat[index++].el );
-        }
-
-        previous_repeat = current_repeat;
-
-        // if( !(list instanceof Array) ) throw new TypeError('expression \'' + matched_expressions[3] + '\' should return an Array')
-
-        // while( previous_repeat[0] && list.indexOf(previous_repeat[0].data_item) < 0 ) {
-        //   parent_el.removeChild( previous_repeat.shift().el )
-        // }
-
-        // if( !previous_repeat.length ) {
-        //   previous_repeat = list.map(function (data_item) {
-        //     return _addListItem(data, data_item, index++)
-        //   })
-        //   return
-        // }
-
-        // var current_repeat = [],
-        //     i = 0, n = list.length,
-        //     item_found
-
-        // while( i < n && previous_repeat.length ) {
-        //   item_found = _findDataItem(previous_repeat, list[i], true)
-        //   // if( item_found ) console.log('item_found', item_found)
-        //   current_repeat.push( item_found ?
-        //     _updateRenderedData(item_found, data, list[i++], index++) :
-        //     _addListItem(data, list[i++], index++)
+        // _forEach(list, function (data_item, i) {
+        //   current_repeat.push( previous_repeat[i] ?
+        //     _updateRenderedData(previous_repeat[i], data, data_item, index++) :
+        //     _addListItem(data, data_item, index++)
         //   )
-        // }
-
-        // if( previous_repeat.length ) previous_repeat.forEach(function (item) {
-        //   parent_el.removeChild( item.el )
         // })
 
-        // while( i < n ) current_repeat.push( _addListItem(data, list[i++], index++) )
+        // while( previous_repeat[index] ) {
+        //   parent_el.removeChild( previous_repeat[index++].el )
+        // }
 
         // previous_repeat = current_repeat
+
+        if( !(list instanceof Array) ) throw new TypeError('expression \'' + matched_expressions[3] + '\' should return an Array')
+
+        while( previous_repeat[0] && list.indexOf(previous_repeat[0].data_item) < 0 ) {
+          parent_el.removeChild( previous_repeat.shift().el );
+        }
+
+        if( !previous_repeat.length ) {
+          previous_repeat = list.map(function (data_item) {
+            return _addListItem(data, data_item, index++)
+          });
+          return
+        }
+
+        var current_repeat = [],
+            i = 0, n = list.length,
+            item_found;
+
+        while( i < n && previous_repeat.length ) {
+          item_found = _findDataItem(previous_repeat, list[i], true);
+          // if( item_found ) console.log('item_found', item_found)
+          current_repeat.push( item_found ?
+            _updateRenderedData(item_found, data, list[i++], index++) :
+            _addListItem(data, list[i++], index++)
+          );
+        }
+
+        if( previous_repeat.length ) previous_repeat.forEach(function (item) {
+          parent_el.removeChild( item.el );
+        });
+
+        while( i < n ) current_repeat.push( _addListItem(data, list[i++], index++) );
+
+        previous_repeat = current_repeat;
 
       });
 
