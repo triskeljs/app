@@ -60,6 +60,43 @@ describe('rendering HTML', function () {
 
   })
 
+  it('render data getter', function () {
+
+    var _data = {
+      first_name: 'John',
+    }
+
+    var _view = APP.render(document.body, [{
+      $: 'div', _: 'Hi {{ first_name }}!',
+    }], {
+      data: _data,
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>')
+    assert.strictEqual(_data, _view.data)
+
+  })
+
+  it('render data setter', function () {
+
+    var _view = APP.render(document.body, [{
+      $: 'div', _: 'Hi {{ first_name }}!',
+    }], {
+      data: {
+        first_name: 'John',
+      },
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>')
+
+    _view.data = {
+      first_name: 'Johnny',
+    }
+
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi Johnny!</div>')
+
+  })
+
   it('render data (special_html_char)', function () {
 
     APP.render(document.body, [{
