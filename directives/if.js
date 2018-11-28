@@ -27,7 +27,14 @@ module.exports = function (APP, TEXT, directive_ns) {
         if_options.insert_before = close_comment
         if_options.data = data
 
-        rendered_handler = APP_.render(parent_el, [node], if_options)
+        try {
+          rendered_handler = APP_.render(parent_el, [node], if_options)
+        } catch(err) {
+          rendered_handler = null
+          APP_.render(parent_el, [], if_options)
+          console.error('ERROR [' + directive_ns + '-if]: ' + err.message) // eslint-disable-line
+          return
+        }
         inserted_node = rendered_handler.inserted_nodes[0].el
       } else if( parent_el.contains(inserted_node) ) {
         parent_el.removeChild(inserted_node)
