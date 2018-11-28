@@ -32,7 +32,7 @@ module.exports = function (APP, TEXT, directive_ns) {
         } catch(err) {
           rendered_handler = null
           APP_.render(parent_el, [], if_options)
-          console.error('ERROR [' + directive_ns + '-if], expression: ' + attr_value + '\n' + err.message) // eslint-disable-line
+          console.error('RENDER ERROR [' + directive_ns + '-if], expression: ' + attr_value + '\n' + err.message) // eslint-disable-line
           return
         }
         inserted_node = rendered_handler.inserted_nodes[0].el
