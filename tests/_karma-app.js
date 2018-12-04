@@ -577,6 +577,10 @@
           getList = TEXT.eval(matched_expressions[3]),
           previous_repeat = [];
 
+      function __matchesPreviousRepeat (data_item, i) {
+        return data_item === previous_repeat[i].data_item
+      }
+
       // console.log('index_key', index_key)
 
       function _addListItem (data, data_item, index, _insert_before) {
@@ -607,7 +611,7 @@
 
         // console.log('_updateRenderedData', data_item, index)
 
-        parent_el.insertBefore(item.el, close_comment);
+        // parent_el.insertBefore(item.el, close_comment)
         item.rendered.updateData(_data);
         return item
       }
@@ -618,6 +622,13 @@
         var list = getList(data),
             index = 0;
             // current_repeat = []
+
+        if( list.length === previous_repeat.length && list.every(__matchesPreviousRepeat) ) {
+          previous_repeat.forEach(function (item, i) {
+            _updateRenderedData(item, data, list[i], i);
+          });
+          return
+        }
 
         // if( !list || typeof list !== 'object' ) throw new TypeError('expression \'' + matched_expressions[3] + '\' should return an Array or an Object')
 
@@ -653,6 +664,8 @@
 
         while( i < n && previous_repeat.length ) {
           item_found = _findDataItem(previous_repeat, list[i], true);
+
+          if( item_found ) parent_el.insertBefore(item_found.el, close_comment);
           // if( item_found ) console.log('item_found', item_found)
           current_repeat.push( item_found ?
             _updateRenderedData(item_found, data, list[i++], index++) :
