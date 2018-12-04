@@ -5,7 +5,7 @@ module.exports = function (APP, TEXT, directive_ns) {
     // @TODO stuff
 
     var APP_ = this,
-        parent_el = close_comment.parentElement,
+        parent_el = close_comment.parentElement || close_comment.parentNode,
         attr_value = APP_.attr_value,
         start_comment = document.createComment(' : ' + this.attr_key + ' : ' + attr_value + ' ' ),
         if_options = Object.create(render_options),

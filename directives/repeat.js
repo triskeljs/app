@@ -20,7 +20,7 @@ module.exports = function (APP, TEXT, directive_ns) {
 
     var APP_ = this,
         repeat_options = Object.create(render_options),
-        parent_el = close_comment.parentElement,
+        parent_el = close_comment.parentElement || close_comment.parentNode,
         attr_value = this.attr_value,
         start_comment = document.createComment(' : ' + this.attr_key.trim() + ' : ' + attr_value.trim() + ' ' ),
         matched_expressions = attr_value.match(/(\w+?(, *.+ *)?) in (.+)/)

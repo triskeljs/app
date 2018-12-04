@@ -493,7 +493,7 @@
       // @TODO stuff
 
       var APP_ = this,
-          parent_el = close_comment.parentElement,
+          parent_el = close_comment.parentElement || close_comment.parentNode,
           attr_value = APP_.attr_value,
           start_comment = document.createComment(' : ' + this.attr_key + ' : ' + attr_value + ' ' ),
           if_options = Object.create(render_options),
@@ -557,7 +557,7 @@
 
       var APP_ = this,
           repeat_options = Object.create(render_options),
-          parent_el = close_comment.parentElement,
+          parent_el = close_comment.parentElement || close_comment.parentNode,
           attr_value = this.attr_value,
           start_comment = document.createComment(' : ' + this.attr_key.trim() + ' : ' + attr_value.trim() + ' ' ),
           matched_expressions = attr_value.match(/(\w+?(, *.+ *)?) in (.+)/);
@@ -820,9 +820,10 @@
         replace_text: '',
         initNode: function (el) {
           // console.log('node.text', arguments)
-          var renderText = TEXT.interpolate(text_node);
+          var renderText = TEXT.interpolate(text_node),
+              parent_el = el.parentElement || el.parentNode;
 
-          if( el.parentElement && /{{.*}}/.test(text_node) ) el.parentElement.insertBefore( document.createComment(' text: ' + text_node + ' '), el );
+          if( parent_el && /{{.*}}/.test(text_node) ) parent_el.insertBefore( document.createComment(' text: ' + text_node + ' '), el );
 
           this.watchData(function (data) {
             var text = renderText(data).replace(/&([a-z]+);/g, function (matched, special_char) {

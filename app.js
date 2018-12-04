@@ -51,9 +51,10 @@ function createApp(options) {
       replace_text: '',
       initNode: function (el) {
         // console.log('node.text', arguments)
-        var renderText = TEXT.interpolate(text_node)
+        var renderText = TEXT.interpolate(text_node),
+            parent_el = el.parentElement || el.parentNode
 
-        if( el.parentElement && /{{.*}}/.test(text_node) ) el.parentElement.insertBefore( document.createComment(' text: ' + text_node + ' '), el )
+        if( parent_el && /{{.*}}/.test(text_node) ) parent_el.insertBefore( document.createComment(' text: ' + text_node + ' '), el )
 
         this.watchData(function (data) {
           var text = renderText(data).replace(/&([a-z]+);/g, function (matched, special_char) {
