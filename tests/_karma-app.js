@@ -176,12 +176,17 @@
 
     options.insert_before = null;
 
-    nodes.forEach(function (node) {
+    var _dom_fragment = document.createDocumentFragment();
+
+    for( var i = 0, n = nodes.length, node ; i < n ; i++ ) {
+      node = nodes[i];
+    // nodes.forEach(function (node) {
 
       if( typeof node === 'string' ) node = { text: node };
-      if( options.remove_comments && node && typeof node === 'object' && 'comments' in node ) return;
+      // if( options.remove_comments && node && typeof node === 'object' && 'comments' in node ) return
+      if( options.remove_comments && node && typeof node === 'object' && 'comments' in node ) break
 
-      var with_node = _withNode(node) ||{};
+      var with_node = _withNode(node) || {};
       var node_el;
 
       if( with_node.replace_by_comment ) node_el = document.createComment(with_node.replace_by_comment);
@@ -189,11 +194,17 @@
 
       if( with_node.onCreate instanceof Function ) with_node.onCreate.call(node_el, node_el, node, options, with_node);
 
-      if( insert_before ) parent_el.insertBefore(node_el, insert_before);
-      else parent_el.appendChild( node_el );
+      // if( insert_before ) parent_el.insertBefore(node_el, insert_before)
+      // else parent_el.appendChild( node_el )
+      _dom_fragment.appendChild(node_el);
 
-      if( with_node.initNode ) inits_list.push(function () {
-        with_node.initNode.call(node_el, node_el, node, options, with_node);
+      // if( with_node.initNode ) inits_list.push(function () {
+      //   with_node.initNode.call(node_el, node_el, node, options, with_node)
+      // })
+      if( with_node.initNode ) inits_list.push({
+        fn: with_node.initNode,
+        _this: node_el,
+        _args: [node_el, node, options, with_node]
       });
 
       inserted_nodes.push({
@@ -202,9 +213,13 @@
         with_node: with_node,
       });
 
-    });
+    }
+    // })
 
-    return inserted_nodes;
+    if( insert_before ) parent_el.insertBefore(_dom_fragment, insert_before);
+    else parent_el.appendChild(_dom_fragment);
+
+    return inserted_nodes
   }
 
   var ns_tags = {
@@ -216,10 +231,10 @@
   function _create(node, _parent, ns_scheme, options, _withNode, inits_list, replace_text) {
     var node_el;
 
-    if( 'text' in node ) return document.createTextNode( replace_text === undefined ? node.text : replace_text );
-    if( 'comments' in node ) return document.createComment(node.comments);
+    if( 'text' in node ) return document.createTextNode( replace_text === undefined ? node.text : replace_text )
+    if( 'comments' in node ) return document.createComment(node.comments)
 
-    if( !node.$ ) throw new TypeError('unknown node format');
+    if( !node.$ ) throw new TypeError('unknown node format')
 
     ns_scheme = ns_scheme || ns_tags[node.$];
     if( ns_scheme ) node_el = document.createElementNS(ns_scheme, node.$);
@@ -231,8 +246,10 @@
 
     if( '_' in node ) _appendChildren(node_el, node._ instanceof Array ? node._ : [node._], ns_scheme, options, _withNode, inits_list);
 
-    return node_el;
+    return node_el
   }
+
+  function _runInits (init_node) { init_node.fn.apply(init_node._this, init_node._args); }
 
   function renderNodes (parent, nodes, options) {
     options = Object.create(options || {});
@@ -250,9 +267,9 @@
     var inits_list = [],
         inserted_nodes = _appendChildren(parent, nodes, null, options, _withNode, inits_list);
 
-    inits_list.forEach(function (initFn) { initFn(); });
+    inits_list.forEach(_runInits);
 
-    return inserted_nodes;
+    return inserted_nodes
   }
 
   var render_cjs = renderNodes;
