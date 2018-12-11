@@ -228,7 +228,8 @@
       for( var key in node.attrs ) {
         if( node.attrs[key] instanceof Function ) {
           attr_value = node.attrs[key](options, node);
-          if( attr_value !== null ) node_el.setAttribute(key, attr_value);
+          if( attr_value === null ) delete node.attrs[key];
+          else node_el.setAttribute(key, attr_value);
         } else {
           node_el.setAttribute(key, node.attrs[key] );
         }
