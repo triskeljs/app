@@ -213,7 +213,7 @@
   };
 
   function _create(node, ns_scheme, options, _withNode, inits_list, replace_text) {
-    var node_el;
+    var node_el, attr_value;
 
     if( 'text' in node ) return document.createTextNode( replace_text === undefined ? node.text : replace_text )
     if( 'comments' in node ) return document.createComment(node.comments)
@@ -225,7 +225,14 @@
     else node_el = document.createElement(node.$);
 
     if( node.attrs ) {
-      for( var key in node.attrs ) node_el.setAttribute(key, node.attrs[key] instanceof Function ? node.attrs[key](options, node) : node.attrs[key] );
+      for( var key in node.attrs ) {
+        if( node.attrs[key] instanceof Function ) {
+          attr_value = node.attrs[key](options, node);
+          if( attr_value !== null ) node_el.setAttribute(key, attr_value);
+        } else {
+          node_el.setAttribute(key, node.attrs[key] );
+        }
+      }
     }
 
     if( '_' in node ) _appendChildren(node_el, node._ instanceof Array ? node._ : [node._], ns_scheme, options, _withNode, inits_list);
