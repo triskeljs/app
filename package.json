@@ -40,6 +40,6 @@
   },
   "dependencies": {
     "@triskel/con-text": "1.0.21",
-    "@triskel/render": "1.1.9"
+    "@triskel/render": "1.1.10"
   }
 }
