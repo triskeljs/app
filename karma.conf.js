@@ -47,9 +47,5 @@ module.exports = function(config) {
     configuration.concurrency = 1
   }
 
-  if( process.env.DRONE ) {
-    configuration.browsers = [ 'Chrome_no_sandbox' ]
-  }
-
   config.set(configuration)
 }
