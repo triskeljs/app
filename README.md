@@ -7,7 +7,7 @@ Compact, reliable and customizable HTML minifier.
 [![bundlephobia](https://badgen.net/bundlephobia/minzip/@triskel/app)](https://bundlephobia.com/result?p=@triskel/app)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-[![Build Status](https://travis-ci.org/triskeljs/app.svg?branch=master)](https://travis-ci.org/triskeljs/app)
+[![Build Status](https://cloud.drone.io/api/badges/triskeljs/app/status.svg)](https://cloud.drone.io/triskeljs/app)
 [![Coverage Status](https://coveralls.io/repos/github/triskeljs/app/badge.svg)](https://coveralls.io/github/triskeljs/app)
 [![dependencies Status](https://david-dm.org/triskeljs/app/status.svg?maxAge=300)](https://david-dm.org/triskeljs/app)
 
