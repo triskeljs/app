@@ -4,6 +4,6 @@ name: node10
 
 steps:
 - name: test
-  image: nitrojs/node-karma:0.5.0
+  image: zenika/alpine-chrome:with-node
   commands:
   - make test
