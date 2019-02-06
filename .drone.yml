@@ -4,6 +4,6 @@ name: node10
 
 steps:
 - name: test
-  image: selenium/node-chrome:3
+  image: nitrojs/node-karma:0.7.0
   commands:
   - make test
