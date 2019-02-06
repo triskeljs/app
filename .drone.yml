@@ -4,6 +4,6 @@ name: node10
 
 steps:
 - name: test
-  image: node:10
+  image: browserless/chrome:1-chrome-stable
   commands:
   - make test
