@@ -4,6 +4,6 @@ name: node10
 
 steps:
 - name: test
-  image: nitrojs/docker-nodejs-karma:0.5.0
+  image: nitrojs/node-karma:0.5.0
   commands:
   - make test
