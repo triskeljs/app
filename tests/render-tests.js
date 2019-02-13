@@ -123,6 +123,10 @@ describe('rendering HTML', function () {
 
     assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>')
 
+    view.updateData()
+    
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi {{ first_name }}! -->Hi John!</div>')
+    
     view.updateData({
       first_name: 'Jack',
     })

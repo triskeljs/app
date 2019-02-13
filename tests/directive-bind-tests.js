@@ -62,4 +62,25 @@ describe('directive [data-bind]', function () {
 
   })
 
+  it('[data-bind] foo | bar', function () {
+
+    _APP.render(document.body, [{
+      $: 'div',
+      attrs: {
+        'data-bind': ' foo ',
+      },
+    }], {
+      data: {
+        foo: [{
+          $: 'foo',
+          _: '{{ bar }}'
+        }],
+        bar: 'foobar',
+      },
+    })
+
+    assert.strictEqual(document.body.innerHTML, '<div data-bind=" foo "><foo><!-- text: {{ bar }} -->foobar</foo></div>')
+
+  })
+
 })
