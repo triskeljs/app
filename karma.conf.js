@@ -21,10 +21,10 @@ module.exports = function(config) {
       'node_modules/@triskel/render/tests/{,**/}*-tests.js',
     ],
     // browsers: [ 'Chrome', 'Firefox' ],
-    browsers: [ 'ChromeHeadless', 'FirefoxHeadless' ],
+    browsers: [ 'Chrome_no_sandbox', 'FirefoxHeadless' ],
     customLaunchers: {
       Chrome_no_sandbox: {
-        base: 'Chrome',
+        base: 'ChromeHeadless',
         flags: ['--no-sandbox'],
       },
     },
