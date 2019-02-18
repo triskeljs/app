@@ -48,7 +48,7 @@ module.exports = function(config) {
   }
 
   if( process.env.DRONE ) {
-    configuration.browsers = [ 'ChromeHeadless' ]
+    configuration.browsers = [ 'Chrome_no_sandbox' ]
   }
 
   config.set(configuration)
