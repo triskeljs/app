@@ -716,8 +716,10 @@
             _render_app.updateData();
           };
 
-      node_el.addEventListener(event_name, function () {
-        var result = onTrigger.call(node_el, data);
+      node_el.addEventListener(event_name, function (event) {
+        var _data = Object.create(data);
+        _data.$event = event;
+        var result = onTrigger.call(node_el, _data);
         _updateData();
         if( result && result.then instanceof Function ) result.then(_updateData, _updateData);
       });
