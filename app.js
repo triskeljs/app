@@ -41,7 +41,7 @@ function createApp(options) {
   // preset directives
 
   var special_chars = {
-    nbsp: ' ', hellip: '…', quot: '"',
+    nbsp: '\u00a0', hellip: '…', quot: '"',
   }
 
   APP.withNode(function (node) {

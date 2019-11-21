@@ -107,7 +107,7 @@ describe('rendering HTML', function () {
       },
     })
 
-    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi&nbsp;{{ first_name }}! -->Hi John!</div>')
+    assert.strictEqual(document.body.innerHTML, '<div><!-- text: Hi&nbsp;{{ first_name }}! -->Hi&nbsp;John!</div>')
 
   })
 
