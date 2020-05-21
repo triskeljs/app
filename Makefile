@@ -1,14 +1,18 @@
+#!make
+SHELL := env PATH=$(shell npm bin):$(PATH) /bin/bash
 
 git_branch := $(shell git rev-parse --abbrev-ref HEAD)
 
-.PHONY: test release
+.SILENT:
+.PHONY: install i test release
 
 ifndef NPM_VERSION
   export NPM_VERSION=patch
 endif
 
-install:
-	npm install
+node_modules:; npm install
+install:; npm install
+i:; npm install
 
 eslint:
 	$(shell npm bin)/eslint app.js
@@ -20,7 +24,7 @@ build:
 	# $(shell npm bin)/rollup app.js --output.format umd --output.file dist/app.umd.js -n APP -c rollup.config.js
 	$(shell npm bin)/rollup tests/_karma-wrapper.js --output.format iife --output.file tests/_karma-app.js -c rollup.config.js
 
-test: install eslint build
+test: node_modules eslint build
 	$(shell npm bin)/karma start karma.conf.js
 
 npm.publish:
